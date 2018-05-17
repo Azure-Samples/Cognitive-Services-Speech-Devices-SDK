@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp.MainActivity">
+
+    <Button
+        android:id="@+id/buttonRecognize"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeIntermediate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRecognizeIntermediate"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize with intermediate results"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeContinuous"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognize" />
+
+    <Button
+        android:id="@+id/buttonRecognizeContinuous"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize continuously"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeKws"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeIntermediate" />
+
+    <Button
+        android:id="@+id/buttonRecognizeKws"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize with wake word"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeIntent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeContinuous" />
+
+    <Button
+        android:id="@+id/buttonRecognizeIntent"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize intent"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeIntentKws"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeKws" />
+
+    <Button
+        android:id="@+id/buttonRecognizeIntentKws"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Recognize intent with wake word"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/recognizedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeIntent" />
+
+    <TextView
+        android:id="@+id/recognizedText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbars="vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeIntentKws" />
+
+</android.support.constraint.ConstraintLayout>

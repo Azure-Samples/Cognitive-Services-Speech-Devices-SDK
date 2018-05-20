@@ -1,4 +1,4 @@
-Speech Devices SDK sample code walk through for Android
+#Speech Devices SDK sample code walk through for Android
 
 
 In this walk through, we will discuss demonstrate 6 six typical user scenarios of Speech Devices SDK. In each scenario, you will need to create a ```SpeechFactory``` and set PMA microphones’ parameters first.

@@ -1,6 +1,6 @@
 # Samples Repository for the Cognitive Services Speech Devices SDK
 
-This project hosts the samples for the Cognitive Services Speech Devices SDK.
+This project hosts the **samples** for the Cognitive Services Speech Devices SDK.
 
 ## Features
 

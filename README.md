@@ -1,57 +1,14 @@
-# Project Name
+# Samples Repository for the Cognitive Services Speech Devices SDK
 
-(short, 1-3 sentenced, description of the project)
+This project hosts the samples for the Cognitive Services Speech Devices SDK.
 
 ## Features
 
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
+This repository hosts samples that help you to get started with several features of the SDK.
 
 ## Getting Started
 
-### Prerequisites
+Currently only samples for Android devices are provided in this repository. Check the [sample code walkthrough](https://github.com/Azure-Samples/Cognitive-Services-Speech-Devices-SDK/blob/master/samples/Android/Sample_Code_Walkthrough.md) for more details. More OS support will be added later.
 
-(ideally very short, if any)
+Also here's how you can [get the Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/get-speech-devices-sdk).
 
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...

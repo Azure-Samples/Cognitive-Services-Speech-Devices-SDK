@@ -12,3 +12,4 @@ Currently only samples for Android devices are provided in this repository. Chec
 
 Also here's how you can [get the Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/get-speech-devices-sdk).
 
+Cognitive Services Speech Devices SDK supports customized wake words. Check this guide to [create a customized wake words](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-create-kws) for your device.

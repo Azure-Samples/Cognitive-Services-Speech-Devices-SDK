@@ -4,7 +4,7 @@ This project hosts the **samples** for the Cognitive Services Speech Devices SDK
 
 ## Features
 
-This repository hosts samples that help you to get started with several features of the SDK.
+This repository hosts samples that help you to get started with several features of the Speech Devices SDK. Please note the Speech Devices SDK only works with the specific devices. At this point, it only works with the Roobo dev kits: https://ddk.roobo.com.
 
 ## Getting Started
 

@@ -1,0 +1,84 @@
+{
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "ddkmusicdemo",
+  "desc": "ddk music demo",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "None"
+    },
+    {
+      "name": "play music"
+    },
+    {
+      "name": "stop"
+    }
+  ],
+  "entities": [
+    {
+      "name": "song",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "pause",
+      "intent": "stop",
+      "entities": []
+    },
+    {
+      "text": "play music",
+      "intent": "play music",
+      "entities": []
+    },
+    {
+      "text": "play music for me",
+      "intent": "play music",
+      "entities": []
+    },
+    {
+      "text": "play music please",
+      "intent": "play music",
+      "entities": []
+    },
+    {
+      "text": "play song",
+      "intent": "play music",
+      "entities": []
+    },
+    {
+      "text": "shut up",
+      "intent": "stop",
+      "entities": []
+    },
+    {
+      "text": "start music",
+      "intent": "play music",
+      "entities": []
+    },
+    {
+      "text": "stop",
+      "intent": "stop",
+      "entities": []
+    },
+    {
+      "text": "stop playing",
+      "intent": "stop",
+      "entities": []
+    },
+    {
+      "text": "turn off",
+      "intent": "stop",
+      "entities": []
+    }
+  ]
+}

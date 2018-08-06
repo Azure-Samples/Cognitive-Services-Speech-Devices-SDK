@@ -2,7 +2,9 @@ package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +17,14 @@ import com.microsoft.cognitiveservices.speech.intent.IntentRecognitionResult;
 import com.microsoft.cognitiveservices.speech.intent.IntentRecognizer;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionResult;
 import com.microsoft.cognitiveservices.speech.SpeechRecognizer;
-import com.microsoft.cognitiveservices.speech.util.Task;
-import com.microsoft.cognitiveservices.speech.util.TaskRunner;
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Button recognizeKwsButton;
     private Button recognizeIntentButton;
     private Button recognizeIntentKwsButton;
+    private final HashMap<String, String> intentIdMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
         recognizeKwsButton = findViewById(R.id.buttonRecognizeKws);
         recognizeIntentButton = findViewById(R.id.buttonRecognizeIntent);
         recognizeIntentKwsButton = findViewById(R.id.buttonRecognizeIntentKws);
+        recognizedTextView.setMovementMethod(new ScrollingMovementMethod());
 
-        // create factory
+       // create factory
         final SpeechFactory speechFactory;
         try {
             speechFactory = SpeechFactory.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
@@ -88,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 final SpeechRecognizer reco = speechFactory.createSpeechRecognizer();
 
-                final Task<SpeechRecognitionResult> task = reco.recognizeAsync();
+                final Future<SpeechRecognitionResult> task = reco.recognizeAsync();
                 setOnTaskCompletedListener(task, result -> {
-                    final String s = result.getRecognizedText();
+                    final String s = result.getText();
                     reco.close();
                     Log.i(logTag, "Recognizer returned: " + s);
                     setRecognizedText(s);
@@ -115,14 +120,14 @@ public class MainActivity extends AppCompatActivity {
                 final SpeechRecognizer reco = speechFactory.createSpeechRecognizer();
 
                 reco.IntermediateResultReceived.addEventListener((o, speechRecognitionResultEventArgs) -> {
-                    final String s = speechRecognitionResultEventArgs.getResult().getRecognizedText();
+                    final String s = speechRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     setRecognizedText(s);
                 });
 
-                final Task<SpeechRecognitionResult> task = reco.recognizeAsync();
+                final Future<SpeechRecognitionResult> task = reco.recognizeAsync();
                 setOnTaskCompletedListener(task, result -> {
-                    final String s = result.getRecognizedText();
+                    final String s = result.getText();
                     reco.close();
                     Log.i(logTag, "Recognizer returned: " + s);
                     setRecognizedText(s);
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 disableButtons();
                 if (continuousListeningStarted) {
                     if (reco != null) {
-                        final Task<?> task = reco.stopContinuousRecognitionAsync();
+                        final Future<Void> task = reco.stopContinuousRecognitionAsync();
                         setOnTaskCompletedListener(task, result -> {
                             Log.i(logTag, "Continuous recognition stopped.");
                             MainActivity.this.runOnUiThread(() -> {
@@ -173,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     reco = speechFactory.createSpeechRecognizer();
 
                     reco.IntermediateResultReceived.addEventListener((o, speechRecognitionResultEventArgs) -> {
-                        final String s = speechRecognitionResultEventArgs.getResult().getRecognizedText();
+                        final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Intermediate result received: " + s);
                         content.add(s);
                         setRecognizedText(TextUtils.join(" ", content));
@@ -181,13 +186,13 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     reco.FinalResultReceived.addEventListener((o, speechRecognitionResultEventArgs) -> {
-                        final String s = speechRecognitionResultEventArgs.getResult().getRecognizedText();
+                        final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Final result received: " + s);
                         content.add(s);
                         setRecognizedText(TextUtils.join(" ", content));
                     });
 
-                    final Task<?> task = reco.startContinuousRecognitionAsync();
+                    final Future<Void> task = reco.startContinuousRecognitionAsync();
                     setOnTaskCompletedListener(task, result -> {
                         continuousListeningStarted = true;
                         MainActivity.this.runOnUiThread(() -> {
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (continuousListeningStarted) {
                     if (reco != null) {
-                        final Task<?> task = reco.stopKeywordRecognitionAsync();
+                        final Future<Void> task = reco.stopKeywordRecognitionAsync();
                         setOnTaskCompletedListener(task, result -> {
                             Log.i(logTag, "Continuous recognition stopped.");
                             MainActivity.this.runOnUiThread(() -> {
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     reco.IntermediateResultReceived.addEventListener((o, intermediateResultEventArgs) -> {
-                        final String s = intermediateResultEventArgs.getResult().getRecognizedText();
+                        final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                         Integer index = content.size() - 2;
                         content.set(index + 1, index.toString() + ". " + s);
@@ -263,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     reco.FinalResultReceived.addEventListener((o, finalResultEventArgs) -> {
-                        String s = finalResultEventArgs.getResult().getRecognizedText();
+                        String s = finalResultEventArgs.getResult().getText();
 
                         Log.i(logTag, "got a final result: " + s);
                         if (!s.isEmpty()) {
@@ -274,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    final Task<?> task = reco.startKeywordRecognitionAsync(KeywordRecognitionModel.fromFile(KeywordModel));
+                    final Future<Void> task = reco.startKeywordRecognitionAsync(KeywordRecognitionModel.fromFile(KeywordModel));
                     setOnTaskCompletedListener(task, result -> {
                         content.set(0, "say `" + Keyword + "`...");
                         setRecognizedText(TextUtils.join(delimiter, content));
@@ -292,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final HashMap<String, String> intentIdMap = new HashMap<>();
+
         intentIdMap.put("1", "play music");
         intentIdMap.put("2", "stop");
 
@@ -310,6 +315,10 @@ public class MainActivity extends AppCompatActivity {
             content.add("");
             try {
                 final SpeechFactory intentFactory = SpeechFactory.fromSubscription(LuisSubscriptionKey, LuisRegion);
+                // PMA parameters
+                intentFactory.getParameters().set("DeviceGeometry", DeviceGeometry);
+                intentFactory.getParameters().set("SelectedGeometry", SelectedGeometry);
+
                 final IntentRecognizer reco = intentFactory.createIntentRecognizer();
 
                 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
@@ -318,20 +327,21 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 reco.IntermediateResultReceived.addEventListener((o, intentRecognitionResultEventArgs) -> {
-                    final String s = intentRecognitionResultEventArgs.getResult().getRecognizedText();
+                    final String s = intentRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     content.set(0, s);
                     setRecognizedText(TextUtils.join("\n", content));
                 });
 
-                final Task<IntentRecognitionResult> task = reco.recognizeAsync();
+                final Future<IntentRecognitionResult> task = reco.recognizeAsync();
                 setOnTaskCompletedListener(task, result -> {
                     Log.i(logTag, "Continuous recognition stopped.");
-                    String s = result.getRecognizedText();
+                    String s = result.getText();
                     String intentId = result.getIntentId();
                     String intent = "";
                     if (intentIdMap.containsKey(intentId)) {
                         intent = intentIdMap.get(intentId);
+                        intentToSpeech(intentId);
                     }
                     Log.i(logTag, "Final result received: " + s + ", intent: " + intent);
                     content.set(0, s);
@@ -363,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (continuousListeningStarted) {
                     if (reco != null) {
-                        final Task<?> task = reco.stopKeywordRecognitionAsync();
+                        final Future<Void> task = reco.stopKeywordRecognitionAsync();
                         setOnTaskCompletedListener(task, result -> {
                             Log.i(logTag, "Continuous recognition stopped.");
                             MainActivity.this.runOnUiThread(() -> {
@@ -386,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                 content.add("");
                 try {
                     final SpeechFactory intentFactory = SpeechFactory.fromSubscription(LuisSubscriptionKey, LuisRegion);
-                    final IntentRecognizer reco = intentFactory.createIntentRecognizer();
+                    reco = intentFactory.createIntentRecognizer();
 
                     LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
                     for (Map.Entry<String, String> entry : intentIdMap.entrySet()) {
@@ -403,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     reco.IntermediateResultReceived.addEventListener((o, intermediateResultEventArgs) -> {
-                        final String s = intermediateResultEventArgs.getResult().getRecognizedText();
+                        final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                         Integer index = content.size() - 2;
                         content.set(index + 1, index.toString() + ". " + s);
@@ -411,11 +421,12 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     reco.FinalResultReceived.addEventListener((o, finalResultEventArgs) -> {
-                        String s = finalResultEventArgs.getResult().getRecognizedText();
+                        String s = finalResultEventArgs.getResult().getText();
                         String intentId = finalResultEventArgs.getResult().getIntentId();
                         String intent = "";
                         if (intentIdMap.containsKey(intentId)) {
                             intent = intentIdMap.get(intentId);
+                            intentToSpeech(intentId);
                         }
 
                         Log.i(logTag, "got a final result: " + s);
@@ -427,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    final Task<?> task = reco.startKeywordRecognitionAsync(KeywordRecognitionModel.fromFile(KeywordModel));
+                    final Future<Void> task = reco.startKeywordRecognitionAsync(KeywordRecognitionModel.fromFile(KeywordModel));
                     setOnTaskCompletedListener(task, result -> {
                         content.set(0, "say `" + Keyword + "`...");
                         setRecognizedText(TextUtils.join(delimiter, content));
@@ -466,6 +477,14 @@ public class MainActivity extends AppCompatActivity {
                 String txt = recognizedTextView.getText().toString();
                 recognizedTextView.setText(txt + "\n" + s);
             }
+
+            final Layout layout =recognizedTextView.getLayout();
+            if(layout != null) {
+                int scrollDelta = layout.getLineBottom(recognizedTextView.getLineCount() - 1)
+                        - recognizedTextView.getScrollY() - recognizedTextView.getHeight();
+                if (scrollDelta > 0)
+                    recognizedTextView.scrollBy(0, scrollDelta);
+            }
         });
     }
 
@@ -490,27 +509,35 @@ public class MainActivity extends AppCompatActivity {
             recognizeIntentKwsButton.setEnabled(true);
         });
     }
-
-    private <T> void setOnTaskCompletedListener(Task<T> task, OnTaskCompletedListener<T> listener) {
-        TaskRunner<T> taskRunner = new TaskRunner<T>() {
-            private T result;
-
-            @Override
-            public void run() {
-                result = task.get();
-                listener.onCompleted(result);
+    private void  intentToSpeech(String intentId){
+        Player player = new Player();
+        if (intentIdMap.containsKey(intentId)) {
+            String intent = intentIdMap.get(intentId);
+            if (intentId.equalsIgnoreCase("1"))
+            {
+                player.playText("I am on it. Now playing music from your library.");
             }
-
-            @Override
-            public T result() {
-                return result;
+            if (intentId.equalsIgnoreCase("2"))
+            {
+                player.playText("");
             }
-        };
+        }
+    }
 
-        new Task<>(taskRunner);
+    private <T> void setOnTaskCompletedListener(Future<T> task, OnTaskCompletedListener<T> listener) {
+        s_executorService.submit(() -> {
+            T result = task.get();
+            listener.onCompleted(result);
+            return null;
+        });
     }
 
     private interface OnTaskCompletedListener<T> {
         void onCompleted(T taskResult);
+    }
+
+    protected static ExecutorService s_executorService;
+    static {
+        s_executorService = Executors.newCachedThreadPool();
     }
 }

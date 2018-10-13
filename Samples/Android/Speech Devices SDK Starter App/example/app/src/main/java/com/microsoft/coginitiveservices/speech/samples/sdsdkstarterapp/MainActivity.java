@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String SpeechRegion = "westus"; // You can change this, if you want to test the intent, and your LUIS region is different.
     private static final String LuisSubscriptionKey = "<enter your subscription info here>";
     private static final String LuisRegion = "westus2"; // you can change this, if you want to test the intent, and your LUIS region is different.
-    private static final String LuisAppId = "<enter your subscription info here>";
+    private static final String LuisAppId = "<enter your LUIS AppId>";
 
     private static final String Keyword = "Computer";
     private static final String KeywordModel = "kws-computer.zip";

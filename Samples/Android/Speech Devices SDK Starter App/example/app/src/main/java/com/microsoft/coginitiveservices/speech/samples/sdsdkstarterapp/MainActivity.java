@@ -33,11 +33,11 @@ import java.util.concurrent.Future;
 public class MainActivity extends AppCompatActivity {
 
     // Subscription
-    private static final String SpeechSubscriptionKey = "ff527ab9cfad450f857cd9ee604a97c8";
+    private static final String SpeechSubscriptionKey = "<enter your subscription info here>";
     private static final String SpeechRegion = "westus"; // You can change this, if you want to test the intent, and your LUIS region is different.
-    private static final String LuisSubscriptionKey = "499f42ea79f04a8db71929d8e46f3ff0";
+    private static final String LuisSubscriptionKey = "<enter your subscription info here>";
     private static final String LuisRegion = "westus2"; // you can change this, if you want to test the intent, and your LUIS region is different.
-    private static final String LuisAppId = "cf3a0b91f6f347d9b41faf169b0c259b";
+    private static final String LuisAppId = "<enter your subscription info here>";
 
     private static final String Keyword = "Computer";
     private static final String KeywordModel = "kws-computer.zip";

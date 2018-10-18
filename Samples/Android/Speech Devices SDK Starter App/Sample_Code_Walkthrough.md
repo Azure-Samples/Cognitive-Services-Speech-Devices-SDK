@@ -20,7 +20,7 @@ private SpeechConfig getSpeechConfig() {
 
         return speechConfig;
     }
-
+```
 Also, we've defined a helper method to handle async ```Task```.
 ```java
     private <T> void setOnTaskCompletedListener(Future<T> task, OnTaskCompletedListener<T> listener) {
@@ -100,7 +100,7 @@ reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Final result received: " + s);
                        // your code goes here
-						// ...
+                       // ...
 });
 
 // Start recognition
@@ -108,8 +108,8 @@ final Future<Void> task = reco.startContinuousRecognitionAsync();
 
 // Set callback for recognition started event
 setOnTaskCompletedListener(task, result -> {
-    // your code goes here
-    // ...
+            // your code goes here
+            // ...
 });
 ```
 
@@ -136,7 +136,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 // Set callback for final results
@@ -144,7 +144,7 @@ reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
                         Log.i(logTag, "Final result received: " + s);
                        // your code goes here
-						// ...
+                       // ...
 });
 
 // Start recognition with wakeup word
@@ -181,7 +181,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 // Start recognition
@@ -200,6 +200,8 @@ setOnTaskCompletedListener(task, result -> {
 6. Recognize intent with wakeup word. Recognize your wakeup word and the intent of the following speech. This needs a LUIS subscription key and a LUIS model.
 
 ```java
+
+//// Create a IntentRecognizer with LUIS subscription
 final SpeechConfig intentSpeechConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
 reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
 
@@ -221,7 +223,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 
@@ -229,7 +231,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
  reco.recognized.addEventListener((o, finalResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
                          // your code goes here
-						// ...
+                         // ...
 
              });
 
@@ -260,14 +262,14 @@ reco = new TranslationRecognizer(translationSpeechConfig, getAudioConfig());
 reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                     final Map<String, String> translations = speechRecognitionResultEventArgs.getResult().getTranslations();
                     // your code goes here
-					// ...
+                    // ...
 });
 
 // Set callback for final results
 reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         final Map<String, String> translations = speechRecognitionResultEventArgs.getResult().getTranslations();                        Log.i(logTag, "Final result received: " + s);
                        // your code goes here
-						// ...
+                       // ...
 });
 
 // Start recognition

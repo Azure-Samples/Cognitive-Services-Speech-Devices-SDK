@@ -66,7 +66,7 @@ reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                     final String s = speechRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     // your code goes here
-					// ...
+                    // ...
 });
 
 // Start recognition
@@ -92,7 +92,7 @@ reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                     final String s = speechRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     // your code goes here
-					// ...
+                    // ...
 });
 
 // Set callback for final results
@@ -127,7 +127,7 @@ reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());
 // Set callback for session events
 reco.sessionStarted.addEventListener((o, sessionEventArgs) -> {
                         Log.i(logTag, "got a session (" + sessionEventArgs.getSessionId() + ")event: sessionStarted");
-						// wakeup word detected
+                        // wakeup word detected
                         content.set(0, "KeywordModel `" + Keyword + "` detected");
  });
 
@@ -201,7 +201,7 @@ setOnTaskCompletedListener(task, result -> {
 
 ```java
 
-//// Create a IntentRecognizer with LUIS subscription
+// Create a IntentRecognizer with LUIS subscription
 final SpeechConfig intentSpeechConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
 reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
 

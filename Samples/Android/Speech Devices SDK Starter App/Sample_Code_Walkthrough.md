@@ -6,13 +6,11 @@ In this walk through, we will discuss demonstrate 6 six typical user scenarios o
 final String SpeechSubscriptionKey = "<enter your subscription info here>";
 final String SpeechRegion = "westus"; // You can change this, if you want to test the intent, and your LUIS region is different.
 
-// Create s SpeechFactory
-final SpeechFactory speechFactory = SpeechFactory.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
-
 // Set PMA geometry parameters
 final String DeviceGeometry = "Circular6+1";
 final String SelectedGeometry = "Circular6+1";
 
+//Set SpeechConfig
 private SpeechConfig getSpeechConfig() {
         SpeechConfig speechConfig = SpeechConfig.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
 
@@ -22,27 +20,20 @@ private SpeechConfig getSpeechConfig() {
 
         return speechConfig;
     }
-
+```
 Also, we've defined a helper method to handle async ```Task```.
 ```java
-private <T> void setOnTaskCompletedListener(Task<T> task, OnTaskCompletedListener<T> listener) {
-    TaskRunner<T> taskRunner = new TaskRunner<T>() {
-        private T result;
-
-        @Override
-        public void run() {
-            result = task.get();
+    private <T> void setOnTaskCompletedListener(Future<T> task, OnTaskCompletedListener<T> listener) {
+        s_executorService.submit(() -> {
+            T result = task.get();
             listener.onCompleted(result);
-        }
+            return null;
+        });
+    }
 
-        @Override
-        public T result() {
-            return result;
-        }
-    };
-
-    new Task<>(taskRunner);
-}
+    private interface OnTaskCompletedListener<T> {
+        void onCompleted(T taskResult);
+    }
 ```
 
 1. Recognize a signle sentence. This is best for sending a command or non-user facing scenarios. 
@@ -75,7 +66,7 @@ reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                     final String s = speechRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     // your code goes here
-					// ...
+                    // ...
 });
 
 // Start recognition
@@ -101,7 +92,7 @@ reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                     final String s = speechRecognitionResultEventArgs.getResult().getText();
                     Log.i(logTag, "Intermediate result received: " + s);
                     // your code goes here
-					// ...
+                    // ...
 });
 
 // Set callback for final results
@@ -109,7 +100,7 @@ reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Final result received: " + s);
                        // your code goes here
-						// ...
+                       // ...
 });
 
 // Start recognition
@@ -117,8 +108,8 @@ final Future<Void> task = reco.startContinuousRecognitionAsync();
 
 // Set callback for recognition started event
 setOnTaskCompletedListener(task, result -> {
-    // your code goes here
-    // ...
+            // your code goes here
+            // ...
 });
 ```
 
@@ -136,7 +127,7 @@ reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());
 // Set callback for session events
 reco.sessionStarted.addEventListener((o, sessionEventArgs) -> {
                         Log.i(logTag, "got a session (" + sessionEventArgs.getSessionId() + ")event: sessionStarted");
-						// wakeup word detected
+                        // wakeup word detected
                         content.set(0, "KeywordModel `" + Keyword + "` detected");
  });
 
@@ -145,15 +136,15 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 // Set callback for final results
 reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
-                        final String s = speechRecognitionResultEventArgs.getResult().getText();
+                        String s = finalResultEventArgs.getResult().getText();
                         Log.i(logTag, "Final result received: " + s);
                        // your code goes here
-						// ...
+                       // ...
 });
 
 // Start recognition with wakeup word
@@ -169,24 +160,15 @@ setOnTaskCompletedListener(task, result -> {
 ```
 
 5. Recognize Intent. Recognize user’s intent of the speech. This needs a LUIS subscription key and a LUIS model.
-
-<details>
-<summary>Create ```IntentRecognizer``` with LUIS subscription</summary>
-<p>
-
 ```java
 // LUIS subscription info
 final String LuisSubscriptionKey = "<enter your subscription info here>";
 final String LuisRegion = "westus2"; // you can change this, if you want to test the intent, and your LUIS region is different.
 final String LuisAppId = "<enter your LUIS AppId>";
 
-// Create a IntentRecognizer
+// Create a IntentRecognizer with LUIS subscription
  final SpeechConfig speechIntentConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
  IntentRecognizer reco = new IntentRecognizer(speechIntentConfig, this.getAudioConfig());
-```
-
-</p>
-</details>
 
 // Create a LanguageUnderstandingModel
 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
@@ -199,7 +181,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 // Start recognition
@@ -218,6 +200,8 @@ setOnTaskCompletedListener(task, result -> {
 6. Recognize intent with wakeup word. Recognize your wakeup word and the intent of the following speech. This needs a LUIS subscription key and a LUIS model.
 
 ```java
+
+// Create a IntentRecognizer with LUIS subscription
 final SpeechConfig intentSpeechConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
 reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
 
@@ -239,7 +223,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
                         Log.i(logTag, "got a intermediate result: " + s);
                          // your code goes here
-						// ...
+                         // ...
                     });
 
 
@@ -247,7 +231,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
  reco.recognized.addEventListener((o, finalResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
                          // your code goes here
-						// ...
+                         // ...
 
              });
 
@@ -259,6 +243,40 @@ final Future<Void> task = reco.startKeywordRecognitionAsync(keywordRecognitionMo
 // Set callback for recognition started event
 setOnTaskCompletedListener(task, result -> {
     Log.i(logTag, "say `" + Keyword + "`...");
+    // your code goes here
+    // ...
+});
+```
+
+7. Recognize continuously and translate
+
+```java
+// Set translate language and recognition language, and Create a TranslationRecognizer
+final SpeechTranslationConfig translationSpeechConfig = SpeechTranslationConfig.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
+translationSpeechConfig.addTargetLanguage("en-US");
+translationSpeechConfig.addTargetLanguage("de-DE");
+translationSpeechConfig.setSpeechRecognitionLanguage("en-US");
+reco = new TranslationRecognizer(translationSpeechConfig, getAudioConfig());
+
+// Set callback for intermediate results
+reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
+                    final Map<String, String> translations = speechRecognitionResultEventArgs.getResult().getTranslations();
+                    // your code goes here
+                    // ...
+});
+
+// Set callback for final results
+reco.recognized.addEventListener((o, speechRecognitionResultEventArgs) -> {
+                        final Map<String, String> translations = speechRecognitionResultEventArgs.getResult().getTranslations();                        Log.i(logTag, "Final result received: " + s);
+                       // your code goes here
+                       // ...
+});
+
+// Start recognition
+final Future<Void> task = reco.startContinuousRecognitionAsync();
+
+// Set callback for recognition started event
+setOnTaskCompletedListener(task, result -> {
     // your code goes here
     // ...
 });

@@ -248,7 +248,7 @@ setOnTaskCompletedListener(task, result -> {
 });
 ```
 
-7. Recognize continue and translate
+7. Recognize continuously and translate
 
 ```java
 // Set translate language and recognition language, and Create a TranslationRecognizer

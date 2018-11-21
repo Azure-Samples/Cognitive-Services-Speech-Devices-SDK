@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/buttonRecognize"
         android:layout_width="336dp"
-        android:layout_height="40dp"
+        android:layout_height="39dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Recognize"
@@ -17,7 +17,8 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonRecognizeIntermediate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/buttonRecognizeIntermediate"
@@ -92,22 +93,50 @@
         android:layout_marginStart="8dp"
         android:text="Translate to German"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/recognizedText"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupLanguage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonRecognizeIntentKws" />
 
+    <RadioGroup
+        android:id="@+id/radioGroupLanguage"
+        android:layout_width="336dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:checkedButton="@+id/radioButtonEnglish"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/recognizedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTranslate">
+
+        <RadioButton
+            android:id="@+id/radioButtonEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="English" />
+
+        <RadioButton
+            android:id="@+id/radioButtonChinese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chinese" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/recognizedText"
         android:layout_width="336dp"
-        android:layout_height="190dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="195dp"
+
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:fadeScrollbars="false"
         android:gravity="bottom"
-
         android:scrollbarFadeDuration="2000"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
@@ -115,7 +144,6 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTranslate" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

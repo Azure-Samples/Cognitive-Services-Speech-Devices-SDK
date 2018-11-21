@@ -174,7 +174,7 @@ final String LuisAppId = "<enter your LUIS AppId>";
 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
 
 // Add intents to IntentRecognizer
-// reco.addIntent(...)
+reco.addIntent(intentModel, entry.getValue(), entry.getKey());
 
 // Set callback for intermediate results
 reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
@@ -209,7 +209,7 @@ reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
 
 // Add intents to IntentRecognizer
-// reco.addIntent(...)
+reco.addIntent(intentModel, entry.getValue(), entry.getKey());
 
 // Set callback for session events
 reco.sessionStarted.addEventListener((o, sessionEventArgs) -> {
@@ -228,7 +228,7 @@ reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
 
 
 // Set callback for recognizer returned
- reco.recognized.addEventListener((o, finalResultEventArgs) -> {
+reco.recognized.addEventListener((o, finalResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
                          // your code goes here
                          // ...

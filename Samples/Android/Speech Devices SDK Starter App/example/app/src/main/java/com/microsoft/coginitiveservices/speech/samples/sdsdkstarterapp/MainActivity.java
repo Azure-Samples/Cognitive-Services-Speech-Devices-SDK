@@ -9,7 +9,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     content.clear();
-                    reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());    
+                    reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());
                     reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Intermediate result received: " + s);
@@ -332,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     final KeywordRecognitionModel keywordRecognitionModel = KeywordRecognitionModel.fromStream(assets.open(KeywordModel), Keyword, true);
-
                     final Future<Void> task = reco.startKeywordRecognitionAsync(keywordRecognitionModel);
                     setOnTaskCompletedListener(task, result -> {
                         content.set(0, "say `" + Keyword + "`...");
@@ -395,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                         intent = intentIdMap.get(intentId);
 
                     }
-                    Log.i(logTag, "Final result received:" + s + ", intent: " + intent);
+                    Log.i(logTag, "Final result received: " + s + ", intent: " + intent);
                     content.set(0, s);
                     content.set(1, " [intent: " + intent + "]");
                     setRecognizedText(TextUtils.join("\n", content));

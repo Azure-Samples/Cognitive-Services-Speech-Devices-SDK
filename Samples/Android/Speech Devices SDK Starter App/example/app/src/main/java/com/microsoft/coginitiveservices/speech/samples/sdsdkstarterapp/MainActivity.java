@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private Button recognizeIntentButton;
     private Button recognizeIntentKwsButton;
     private Button translateButton;
+    private RadioGroup languageRadioGroup;
     private final HashMap<String, String> intentIdMap = new HashMap<>();
+    private static String languageRecognition = "en-US";
 
     private AudioConfig getAudioConfig() {
         if(new File(SampleAudioInput).exists()) {
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         // PMA parameters
         speechConfig.setProperty("DeviceGeometry", DeviceGeometry);
         speechConfig.setProperty("SelectedGeometry", SelectedGeometry);
+        speechConfig.setSpeechRecognitionLanguage(languageRecognition);
 
         return speechConfig;
     }
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         recognizeIntentKwsButton = findViewById(R.id.buttonRecognizeIntentKws);
         recognizedTextView.setMovementMethod(new ScrollingMovementMethod());
         translateButton = findViewById(R.id.buttonTranslate);
+        languageRadioGroup = findViewById(R.id.radioGroupLanguage);
 
         ///////////////////////////////////////////////////
         // check if we have a valid key
@@ -112,6 +117,25 @@ public class MainActivity extends AppCompatActivity {
 
         // save the asset manager
         final AssetManager assets = this.getAssets();
+
+        //select recognition language
+        languageRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.i("Language", "Change recognition language");
+                switch(checkedId){
+                    case R.id.radioButtonChinese :
+                        languageRecognition = "zh-CN";
+                        Log.i("Language", "Set zh-CN language");
+                        break;
+                    case R.id.radioButtonEnglish :
+                        languageRecognition = "en-US";
+                        Log.i("Language", "Set en-US language");
+                        break;
+                }
+            }
+        });
+
 
         ///////////////////////////////////////////////////
         // recognize
@@ -343,11 +367,12 @@ public class MainActivity extends AppCompatActivity {
             content.add("");
             try {
                 final SpeechConfig speechIntentConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
+                speechIntentConfig.setSpeechRecognitionLanguage(languageRecognition);
                 IntentRecognizer reco = new IntentRecognizer(speechIntentConfig, this.getAudioConfig());
 
                 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
                 for (Map.Entry<String, String> entry : intentIdMap.entrySet()) {
-                    reco.addIntent(intentModel, entry.getKey(), entry.getValue());
+                    reco.addIntent(intentModel, entry.getValue(), entry.getKey());
                 }
 
                 reco.recognizing.addEventListener((o, intentRecognitionResultEventArgs) -> {
@@ -362,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(logTag, "Continuous recognition stopped.");
                     String s = result.getText();
                     String intentId = result.getIntentId();
+                    Log.i(logTag, "IntentId: " + intentId);
                     String intent = "";
                     if (intentIdMap.containsKey(intentId)) {
                         intent = intentIdMap.get(intentId);
@@ -418,11 +444,12 @@ public class MainActivity extends AppCompatActivity {
                 content.add("");
                 try {
                     final SpeechConfig intentSpeechConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
+                    intentSpeechConfig.setSpeechRecognitionLanguage(languageRecognition);
                     reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
 
                     LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
                     for (Map.Entry<String, String> entry : intentIdMap.entrySet()) {
-                        reco.addIntent(intentModel, entry.getKey(), entry.getValue());
+                        reco.addIntent(intentModel, entry.getValue(), entry.getKey());
                     }
 
                     reco.sessionStarted.addEventListener((o, sessionEventArgs) -> {
@@ -445,10 +472,10 @@ public class MainActivity extends AppCompatActivity {
                     reco.recognized.addEventListener((o, finalResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
                         String intentId = finalResultEventArgs.getResult().getIntentId();
+                        Log.i(logTag, "IntentId: " + intentId);
                         String intent = "";
                         if (intentIdMap.containsKey(intentId)) {
                             intent = intentIdMap.get(intentId);
-
                         }
 
                         Log.i(logTag, "got a final result: " + s);
@@ -514,9 +541,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     content.clear();
                     final SpeechTranslationConfig translationSpeechConfig = SpeechTranslationConfig.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
-                    translationSpeechConfig.addTargetLanguage("en-US");
+                    translationSpeechConfig.addTargetLanguage(languageRecognition);
                     translationSpeechConfig.addTargetLanguage("de-DE");
-                    translationSpeechConfig.setSpeechRecognitionLanguage("en-US");
+                    translationSpeechConfig.setSpeechRecognitionLanguage(languageRecognition);
                     reco = new TranslationRecognizer(translationSpeechConfig, getAudioConfig());
 
                     reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {

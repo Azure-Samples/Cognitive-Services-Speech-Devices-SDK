@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Speech Devices SDK Starter App</string>
+    <string name="recognizeLanguage">Recognize Language:</string>
+    <string name ="selectLanguage">...</string>
+    <string name="recognizeWithIntermediateResults">Recognize Once</string>
+    <string name="recognizeContinuous">Recognize Continuously</string>
+    <string name="recognizeWithWakeWord">Recognize With Wake Word</string>
+    <string name="recognizeIntent">Recognize Intent</string>
+    <string name="recognizeIntentWithWakeWord">Recognize Intent With Wake Word</string>
+    <string name="Translate">Translate To:    </string>
+    <string name="recognizeEnglish">Recognize English</string>
+    <string name="recognizeChinese">Recognize Chinese</string>
+    <string name="translateChinese">Chinese</string>
+    <string name="translateGerman">German</string>
+    <string name="title_activity_list_language">listLanguage</string>
 </resources>

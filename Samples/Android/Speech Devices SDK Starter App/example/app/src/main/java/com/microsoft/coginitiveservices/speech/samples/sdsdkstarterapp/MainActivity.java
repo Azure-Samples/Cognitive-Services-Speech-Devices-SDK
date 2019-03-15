@@ -1,5 +1,8 @@
 package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
 
+
+import android.content.Intent;
+
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +12,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
@@ -20,6 +22,7 @@ import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.intent.IntentRecognitionResult;
 import com.microsoft.cognitiveservices.speech.intent.IntentRecognizer;
 import com.microsoft.cognitiveservices.speech.intent.LanguageUnderstandingModel;
+import com.microsoft.cognitiveservices.speech.ResultReason;
 import com.microsoft.cognitiveservices.speech.translation.SpeechTranslationConfig;
 import com.microsoft.cognitiveservices.speech.translation.TranslationRecognizer;
 
@@ -30,6 +33,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizedKeyword;
+import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizingSpeech;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,23 +51,31 @@ public class MainActivity extends AppCompatActivity {
     private static final String DeviceGeometry = "Circular6+1";
     private static final String SelectedGeometry = "Circular6+1";
 
+
     // Note: point this to a wav file in case you don't want to
     //       use the microphone. It will be used automatically, if
     //       the file exists on disk.
     private static final String SampleAudioInput = "/data/keyword/kws-computer.wav";
 
     private TextView recognizedTextView;
-
-    private Button recognizeButton;
     private Button recognizeIntermediateButton;
     private Button recognizeContinuousButton;
     private Button recognizeKwsButton;
     private Button recognizeIntentButton;
     private Button recognizeIntentKwsButton;
+    private Button selectRecoLanguageButton;
+    private Button selectTranLanguageButton;
     private Button translateButton;
-    private RadioGroup languageRadioGroup;
+    private TextView recognizeLanguageTextView;
+    private TextView translateLanguageTextView;
     private final HashMap<String, String> intentIdMap = new HashMap<>();
     private static String languageRecognition = "en-US";
+	private static String translateLanguage = "zh-Hans";
+	private HashMap<String, String> mapRecolanguageCode = new HashMap<>();
+	private HashMap<String, String> mapTranlanguageCode = new HashMap<>();
+    static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;  // The request code
+    static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;  // The request code
+
 
     private AudioConfig getAudioConfig() {
         if(new File(SampleAudioInput).exists()) {
@@ -92,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recognizedTextView = findViewById(R.id.recognizedText);
-
-        recognizeButton = findViewById(R.id.buttonRecognize);
         recognizeIntermediateButton = findViewById(R.id.buttonRecognizeIntermediate);
         recognizeContinuousButton = findViewById(R.id.buttonRecognizeContinuous);
         recognizeKwsButton = findViewById(R.id.buttonRecognizeKws);
@@ -101,7 +113,12 @@ public class MainActivity extends AppCompatActivity {
         recognizeIntentKwsButton = findViewById(R.id.buttonRecognizeIntentKws);
         recognizedTextView.setMovementMethod(new ScrollingMovementMethod());
         translateButton = findViewById(R.id.buttonTranslate);
-        languageRadioGroup = findViewById(R.id.radioGroupLanguage);
+        selectRecoLanguageButton = findViewById(R.id.buttonSelectRecoLanguage);
+        selectTranLanguageButton = findViewById(R.id.buttonSelectTranLanguage);
+        recognizeLanguageTextView = findViewById(R.id.textViewRecognitionLanguage);
+        translateLanguageTextView = findViewById(R.id.textViewTranslateLanguage);
+
+
 
         ///////////////////////////////////////////////////
         // check if we have a valid key
@@ -117,58 +134,106 @@ public class MainActivity extends AppCompatActivity {
 
         // save the asset manager
         final AssetManager assets = this.getAssets();
+        //set recognize language code
+        {
+            mapRecolanguageCode.put("English (United States)", "en-US");
+            mapRecolanguageCode.put("German (Germany)", "de-DE");
+            mapRecolanguageCode.put("Chinese (Mandarin, simplified)", "zh-CN");
+            mapRecolanguageCode.put("English (India)", "en-IN");
+            mapRecolanguageCode.put("Spanish (Spain)", "es-ES");
+            mapRecolanguageCode.put("French (France)", "fr-FR");
+            mapRecolanguageCode.put("Italian (Italy)", "it-IT");
+            mapRecolanguageCode.put("Portuguese (Brazil)", "pt-BR");
+            mapRecolanguageCode.put("Russian (Russia)", "ru-RU");
+        }
 
-        //select recognition language
-        languageRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Log.i("Language", "Change recognition language");
-                switch(checkedId){
-                    case R.id.radioButtonChinese :
-                        languageRecognition = "zh-CN";
-                        Log.i("Language", "Set zh-CN language");
-                        break;
-                    case R.id.radioButtonEnglish :
-                        languageRecognition = "en-US";
-                        Log.i("Language", "Set en-US language");
-                        break;
-                }
-            }
+        //set translate language code
+        {
+            mapTranlanguageCode.put("Afrikaans", "af");
+            mapTranlanguageCode.put("Arabic", "ar");
+            mapTranlanguageCode.put("Bangla", "bn");
+            mapTranlanguageCode.put("Bosnian (Latin)", "bs");
+            mapTranlanguageCode.put("Bulgarian", "bg");
+            mapTranlanguageCode.put("Cantonese (Traditional)", "yue");
+            mapTranlanguageCode.put("Catalan", "ca");
+            mapTranlanguageCode.put("Chinese Simplified", "zh-Hans");
+            mapTranlanguageCode.put("Chinese Traditional", "zh-Hant");
+            mapTranlanguageCode.put("Croatian", "hr");
+            mapTranlanguageCode.put("Czech", "cs");
+            mapTranlanguageCode.put("Danish", "da");
+            mapTranlanguageCode.put("Dutch", "nl");
+            mapTranlanguageCode.put("English", "en");
+            mapTranlanguageCode.put("Estonian", "et");
+            mapTranlanguageCode.put("Fijian", "fj");
+            mapTranlanguageCode.put("Filipino", "fil");
+            mapTranlanguageCode.put("Finnish", "fi");
+            mapTranlanguageCode.put("French", "fr");
+            mapTranlanguageCode.put("German", "de");
+            mapTranlanguageCode.put("Greek", "el");
+            mapTranlanguageCode.put("Haitian Creole", "ht");
+            mapTranlanguageCode.put("Hebrew", "he");
+            mapTranlanguageCode.put("Hindi", "hi");
+            mapTranlanguageCode.put("Hmong Daw", "mww");
+            mapTranlanguageCode.put("Hungarian", "hu");
+            mapTranlanguageCode.put("Indonesian", "id");
+            mapTranlanguageCode.put("Italian", "it");
+            mapTranlanguageCode.put("Japanese", "ja");
+            mapTranlanguageCode.put("Kiswahili", "sw");
+            mapTranlanguageCode.put("Klingon", "tlh");
+            mapTranlanguageCode.put("Klingon (plqaD)", "tlh-Qaak");
+            mapTranlanguageCode.put("Korean", "ko");
+            mapTranlanguageCode.put("Latvian", "lv");
+            mapTranlanguageCode.put("Lithuanian", "lt");
+            mapTranlanguageCode.put("Malagasy", "mg");
+            mapTranlanguageCode.put("Malay", "ms");
+            mapTranlanguageCode.put("Maltese", "mt");
+            mapTranlanguageCode.put("Norwegian", "nb");
+            mapTranlanguageCode.put("Persian", "fa");
+            mapTranlanguageCode.put("Polish", "pl");
+            mapTranlanguageCode.put("Portuguese", "pt");
+            mapTranlanguageCode.put("Queretaro Otomi", "otq");
+            mapTranlanguageCode.put("Romanian", "ro");
+            mapTranlanguageCode.put("Russian", "ru");
+            mapTranlanguageCode.put("Samoan", "sm");
+            mapTranlanguageCode.put("Serbian (Cyrillic)", "sr-Cyrl");
+            mapTranlanguageCode.put("Serbian (Latin)", "sr-Latn");
+            mapTranlanguageCode.put("Slovak", "sk");
+            mapTranlanguageCode.put("Slovenian", "sl");
+            mapTranlanguageCode.put("Spanish", "es");
+            mapTranlanguageCode.put("Swedish", "sv");
+            mapTranlanguageCode.put("Tahitian", "ty");
+            mapTranlanguageCode.put("Tamil", "ta");
+            mapTranlanguageCode.put("Thai", "th");
+            mapTranlanguageCode.put("Tongan", "to");
+            mapTranlanguageCode.put("Turkish", "tr");
+            mapTranlanguageCode.put("Ukrainian", "uk");
+            mapTranlanguageCode.put("Urdu", "ur");
+            mapTranlanguageCode.put("Vietnamese", "vi");
+            mapTranlanguageCode.put("Welsh", "cy");
+            mapTranlanguageCode.put("Yucatec Maya", "yua");
+        }
+
+        //select recognize language
+        selectRecoLanguageButton.setOnClickListener(view -> {
+
+            Intent selectLanguageIntent = new Intent(this, listLanguage.class);
+            selectLanguageIntent.putExtra("RecognizeOrTranslate", 0);
+            startActivityForResult(selectLanguageIntent, SELECT_RECOGNIZE_LANGUAGE_REQUEST);
         });
 
+        //select translate language
+        selectTranLanguageButton.setOnClickListener(view -> {
 
-        ///////////////////////////////////////////////////
-        // recognize
-        ///////////////////////////////////////////////////
-        recognizeButton.setOnClickListener(view -> {
-            final String logTag = "reco 1";
-
-            disableButtons();
-            clearTextBox();
-
-
-            try {
-                final SpeechRecognizer reco = new SpeechRecognizer(this.getSpeechConfig(), this.getAudioConfig());
-                final Future<SpeechRecognitionResult> task = reco.recognizeOnceAsync();
-
-                setOnTaskCompletedListener(task, result -> {
-                    final String s = result.getText();
-                    reco.close();
-                    Log.i(logTag, "Recognizer returned: " + s);
-                    setRecognizedText(s);
-                    enableButtons();
-                });
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                displayException(ex);
-            }
+            Intent selectLanguageIntent = new Intent(this, listLanguage.class);
+            selectLanguageIntent.putExtra("RecognizeOrTranslate", 1);
+            startActivityForResult(selectLanguageIntent, SELECT_TRANSLATE_LANGUAGE_REQUEST);
         });
 
         ///////////////////////////////////////////////////
-        // recognize with intermediate results
+        // recognize Once with intermediate results
         ///////////////////////////////////////////////////
         recognizeIntermediateButton.setOnClickListener(view -> {
-            final String logTag = "reco 2";
+            final String logTag = "reco 1";
 
             disableButtons();
             clearTextBox();
@@ -199,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
         // recognize continuously
         ///////////////////////////////////////////////////
         recognizeContinuousButton.setOnClickListener(new View.OnClickListener() {
-            private static final String logTag = "reco 3";
+            private static final String logTag = "reco 2";
             private boolean continuousListeningStarted = false;
             private SpeechRecognizer reco = null;
             private String buttonText = "";
@@ -229,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     content.clear();
-                    reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());
+                    reco = new SpeechRecognizer(getSpeechConfig(), getAudioConfig());    
                     reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
                         final String s = speechRecognitionResultEventArgs.getResult().getText();
                         Log.i(logTag, "Intermediate result received: " + s);
@@ -305,24 +370,30 @@ public class MainActivity extends AppCompatActivity {
 
                         content.set(0, "KeywordModel `" + Keyword + "` detected");
                         setRecognizedText(TextUtils.join(delimiter, content));
-                        content.add("");
+
                     });
 
                     reco.sessionStopped.addEventListener((o, sessionEventArgs) -> Log.i(logTag, "got a session (" + sessionEventArgs.getSessionId() + ")event: sessionStopped"));
 
                     reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
-                        Log.i(logTag, "got a intermediate result: " + s);
-                        Integer index = content.size() - 2;
-                        content.set(index + 1, index.toString() + ". " + s);
-                        setRecognizedText(TextUtils.join(delimiter, content));
+                        ResultReason rr =intermediateResultEventArgs.getResult().getReason();
+                        Log.i(logTag, "got a intermediate result: " + s + " result reason:" + rr.toString());
+                        if(rr == RecognizingSpeech) {
+                            Integer index = content.size() - 2;
+                            content.set(index + 1, index.toString() + ". " + s);
+                            setRecognizedText(TextUtils.join(delimiter, content));
+                        }
                     });
-
                     reco.recognized.addEventListener((o, finalResultEventArgs) -> {
                         String s = finalResultEventArgs.getResult().getText();
+                        ResultReason rr = finalResultEventArgs.getResult().getReason();
+                        Log.i(logTag, "got a final result: " + s + " result reason:" + rr.toString());
+                        if(rr == RecognizedKeyword) {
+                            content.add("");
+                        }
 
-                        Log.i(logTag, "got a final result: " + s);
-                        if (!s.isEmpty()) {
+                        if(  !s.isEmpty() ) {
                             Integer index = content.size() - 2;
                             content.set(index + 1, index.toString() + ". " + s);
                             content.set(0, "say `" + Keyword + "`...");
@@ -331,6 +402,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     final KeywordRecognitionModel keywordRecognitionModel = KeywordRecognitionModel.fromStream(assets.open(KeywordModel), Keyword, true);
+
                     final Future<Void> task = reco.startKeywordRecognitionAsync(keywordRecognitionModel);
                     setOnTaskCompletedListener(task, result -> {
                         content.set(0, "say `" + Keyword + "`...");
@@ -373,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
                 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
                 for (Map.Entry<String, String> entry : intentIdMap.entrySet()) {
                     reco.addIntent(intentModel, entry.getValue(), entry.getKey());
+                    Log.i(logTag, "intent: " + entry.getValue() + " Intent Id : " + entry.getKey());
                 }
 
                 reco.recognizing.addEventListener((o, intentRecognitionResultEventArgs) -> {
@@ -393,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
                         intent = intentIdMap.get(intentId);
 
                     }
-                    Log.i(logTag, "Final result received: " + s + ", intent: " + intent);
+                    Log.i(logTag, "S: " + s + ", intent: " + intent);
                     content.set(0, s);
                     content.set(1, " [intent: " + intent + "]");
                     setRecognizedText(TextUtils.join("\n", content));
@@ -450,23 +523,27 @@ public class MainActivity extends AppCompatActivity {
                     LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
                     for (Map.Entry<String, String> entry : intentIdMap.entrySet()) {
                         reco.addIntent(intentModel, entry.getValue(), entry.getKey());
+                        Log.i(logTag, "intent: " + entry.getValue() + " Intent Id : " + entry.getKey());
                     }
 
                     reco.sessionStarted.addEventListener((o, sessionEventArgs) -> {
                         Log.i(logTag, "got a session (" + sessionEventArgs.getSessionId() + ")event: sessionStarted");
                         content.set(0, "KeywordModel `" + Keyword + "` detected");
                         setRecognizedText(TextUtils.join(delimiter, content));
-                        content.add("");
+
                     });
 
                     reco.sessionStopped.addEventListener((o, sessionEventArgs) -> Log.i(logTag, "got a session (" + sessionEventArgs.getSessionId() + ")event: sessionStopped"));
 
                     reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
                         final String s = intermediateResultEventArgs.getResult().getText();
-                        Log.i(logTag, "got a intermediate result: " + s);
-                        Integer index = content.size() - 2;
-                        content.set(index + 1, index.toString() + ". " + s);
-                        setRecognizedText(TextUtils.join(delimiter, content));
+                        ResultReason rr =intermediateResultEventArgs.getResult().getReason();
+                        Log.i(logTag, "got a intermediate result: " + s + " result reason:" + rr.toString());
+                        if(rr == RecognizingSpeech) {
+                            Integer index = content.size() - 2;
+                            content.set(index + 1, index.toString() + ". " + s);
+                            setRecognizedText(TextUtils.join(delimiter, content));
+                        }
                     });
 
                     reco.recognized.addEventListener((o, finalResultEventArgs) -> {
@@ -476,10 +553,16 @@ public class MainActivity extends AppCompatActivity {
                         String intent = "";
                         if (intentIdMap.containsKey(intentId)) {
                             intent = intentIdMap.get(intentId);
+
                         }
 
-                        Log.i(logTag, "got a final result: " + s);
-                        if (!s.isEmpty()) {
+                        ResultReason rr = finalResultEventArgs.getResult().getReason();
+                        Log.i(logTag, "got a final result: " + s + " result reason:" + rr.toString());
+                        if(rr == RecognizedKeyword) {
+                            content.add("");
+                        }
+
+                        if( !s.isEmpty() ) {
                             Integer index = content.size() - 2;
                             content.set(index + 1, index.toString() + ". " + s + " [intent: " + intent + "]");
                             content.set(0, "say `" + Keyword + "`...");
@@ -542,7 +625,7 @@ public class MainActivity extends AppCompatActivity {
                     content.clear();
                     final SpeechTranslationConfig translationSpeechConfig = SpeechTranslationConfig.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
                     translationSpeechConfig.addTargetLanguage(languageRecognition);
-                    translationSpeechConfig.addTargetLanguage("de-DE");
+                    translationSpeechConfig.addTargetLanguage(translateLanguage);
                     translationSpeechConfig.setSpeechRecognitionLanguage(languageRecognition);
                     reco = new TranslationRecognizer(translationSpeechConfig, getAudioConfig());
 
@@ -618,7 +701,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void disableButtons() {
         MainActivity.this.runOnUiThread(() -> {
-            recognizeButton.setEnabled(false);
             recognizeIntermediateButton.setEnabled(false);
             recognizeContinuousButton.setEnabled(false);
             recognizeKwsButton.setEnabled(false);
@@ -630,7 +712,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void enableButtons() {
         MainActivity.this.runOnUiThread(() -> {
-            recognizeButton.setEnabled(true);
             recognizeIntermediateButton.setEnabled(true);
             recognizeContinuousButton.setEnabled(true);
             recognizeKwsButton.setEnabled(true);
@@ -639,7 +720,25 @@ public class MainActivity extends AppCompatActivity {
             translateButton.setEnabled(true);
         });
     }
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == SELECT_RECOGNIZE_LANGUAGE_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                String language = data.getStringExtra("language");
+                languageRecognition = mapRecolanguageCode.get(language);
+                recognizeLanguageTextView.setText(language);
+            }
+        }
+        if (requestCode == SELECT_TRANSLATE_LANGUAGE_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                String language = data.getStringExtra("language");
+                translateLanguage = mapTranlanguageCode.get(language);
+                translateLanguageTextView.setText(language);
+            }
+        }
+    }
 
     private <T> void setOnTaskCompletedListener(Future<T> task, OnTaskCompletedListener<T> listener) {
         s_executorService.submit(() -> {
@@ -657,4 +756,5 @@ public class MainActivity extends AppCompatActivity {
     static {
         s_executorService = Executors.newCachedThreadPool();
     }
+
 }

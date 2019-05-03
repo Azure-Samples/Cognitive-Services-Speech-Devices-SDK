@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="60dp"
+    android:clipToPadding="false">
+
+    <RelativeLayout
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/circle"
+            android:contentDescription="Image" />
+        <TextView
+            android:id="@+id/icon_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:text="T"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/avatar"
+        android:layout_alignTop="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:text="Rose"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:typeface="sans"
+        android:id="@+id/transcription_body"
+        android:layout_below="@+id/name"
+        android:layout_alignLeft="@+id/name"
+        android:background="@drawable/final_transcription"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="10dp"
+        android:elevation="2dp"
+        android:textSize="13sp"
+        android:text="How are you doing? This is a long message that should probably wrap."
+        />
+
+</RelativeLayout>

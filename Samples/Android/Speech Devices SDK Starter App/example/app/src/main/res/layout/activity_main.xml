@@ -1,207 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp.MainActivity">
 
-    <TableLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:stretchColumns="*"
-        android:shrinkColumns="*">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-
-        <TableRow
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainToolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:textAlignment="textStart"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginLeft="8dp"
-                android:layout_span="1"
-                android:gravity="center_vertical"
-                android:text="@string/recognizeLanguage"
-                android:textStyle="bold" />
+    </android.support.design.widget.AppBarLayout>
 
-            <TextView
-                android:id="@+id/textViewRecognitionLanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_column="1"
-                android:layout_gravity="center_vertical|start"
-                android:layout_span="1"
-                android:gravity="center_vertical|start"
-                android:text="English (United States)"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/buttonSelectRecoLanguage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_column="2"
-                android:layout_gravity="start"
-                android:layout_marginRight="16dp"
-                android:layout_span="1"
-                android:gravity="center_horizontal"
-                android:text="@string/selectLanguage" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonRecognizeIntermediate"
-                android:layout_width="336dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/recognizeWithIntermediateResults"
-                android:textAllCaps="false"
-                android:layout_span="3"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonRecognizeContinuous"
-                android:layout_width="336dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/recognizeContinuous"
-                android:textAllCaps="false"
-                android:layout_span="3"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonRecognizeKws"
-                android:layout_width="336dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/recognizeWithWakeWord"
-                android:textAllCaps="false"
-                android:layout_span="3"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonRecognizeIntent"
-                android:layout_width="336dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/recognizeIntent"
-                android:textAllCaps="false"
-                android:layout_span="3"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonRecognizeIntentKws"
-                android:layout_width="336dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/recognizeIntentWithWakeWord"
-                android:textAllCaps="false"
-                android:layout_span="3"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="347dp"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonTranslate"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginLeft="8dp"
-                android:layout_span="1"
-                android:text="@string/Translate"
-                android:textSize="14sp"
-                android:textAllCaps="false" />
-
-            <TextView
-                android:id="@+id/textViewTranslateLanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_column="1"
-                android:layout_gravity="start"
-                android:layout_span="1"
-                android:gravity="center_vertical"
-                android:textSize="14sp"
-                android:text="Chinese Simplified"
-                android:textStyle="bold"/>
-
-            <Button
-                android:id="@+id/buttonSelectTranLanguage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_column="2"
-                android:layout_gravity="start"
-                android:layout_marginRight="16dp"
-                android:layout_span="1"
-                android:gravity="center_horizontal"
-                android:text="@string/selectLanguage" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/recognizedText"
-                android:layout_width="336dp"
-                android:layout_height="210dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:fadeScrollbars="false"
-                android:gravity="bottom"
-                android:scrollbarFadeDuration="2000"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbars="vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="14sp"
-                android:layout_span="3"/>
-        </TableRow>
-    </TableLayout>
+    <include layout="@layout/content_main" />
 
 </android.support.constraint.ConstraintLayout>

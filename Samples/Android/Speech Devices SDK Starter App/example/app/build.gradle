@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+    sourceSets {
+        test {
+            resources.srcDirs += ['src/test/resources']
+        }
+
+    }
     defaultConfig {
         applicationId "com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp"
         minSdkVersion 22
@@ -30,10 +36,10 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-	testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestImplementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.tests.jar')
-
     implementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.jar')
+    implementation project(path: ':speechttssdk')
+
 }

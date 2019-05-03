@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private static String Keyword = "computer";
     private static String KeywordModel = "computer.zip";
 
-    private static String DeviceGeometry = "<enter your microphone geometry>"; //"Circular6+1" or "Linear4"
-    private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1" or "Linear4"
+    private static String DeviceGeometry = "<enter your microphone geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"
+    private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"
 
 
     // Note: point this to a wav file in case you don't want to
@@ -168,24 +168,37 @@ public class MainActivity extends AppCompatActivity {
         // check if we have a valid key
         ///////////////////////////////////////////////////
         if (SpeechSubscriptionKey.startsWith("<") || SpeechSubscriptionKey.endsWith(">")) {
-            recognizedTextView.setText("Error: Replace SpeechSubscriptionKey with your actual subscription key and re-compile this application!");
-            return;
+            recognizedTextView.setText(recognizedTextView.getText() + "\nError: Replace SpeechSubscriptionKey with your actual subscription key in option menu!");
+            
         }
         ///////////////////////////////////////////////////
         // check if we have a valid microphone parameter
         ///////////////////////////////////////////////////
         if(DeviceGeometry.startsWith("<") || DeviceGeometry.endsWith(">") ){
-            recognizedTextView.setText("Error: Replace DeviceGeometry with your actual microphone parameter!");
-            return;
+            recognizedTextView.setText(recognizedTextView.getText() + "\nError: Replace DeviceGeometry with your actual microphone parameter in option menu!");
+           
         }
         if(SelectedGeometry.startsWith("<") || SelectedGeometry.endsWith(">") ){
-            recognizedTextView.setText("Error: Replace SelectedGeometry with your actual select parameter!");
-            return;
+            recognizedTextView.setText(recognizedTextView.getText() + "\nError: Replace SelectedGeometry with your actual select parameter in option menu!");
+           
         }
 
         if (LuisSubscriptionKey.startsWith("<") || LuisSubscriptionKey.endsWith(">")) {
             recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace LuisSubscriptionKey with your actual Luis subscription key to use Intents!");
         }
+		
+		 ///////////////////////////////////////////////////
+        // check if we have a CTS key
+        ///////////////////////////////////////////////////
+
+        if (enrollment.CTSKey.startsWith("<") || enrollment.CTSKey.endsWith(">")) {
+            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS SubscriptionKey with your actual subscription key if you use the meeting function and re-compile!");
+        }
+       
+        if(enrollment.inroomEndpoint.startsWith("<") || enrollment.inroomEndpoint.endsWith(">") ){
+            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS endpoint with your CTS endpoint parameter if you use the meeting function and re-compile!");
+        }
+
 
 
         // save the asset manager

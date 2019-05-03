@@ -47,10 +47,10 @@ public class enrollment extends AppCompatActivity {
     private HashMap<String, String> colorMap = new HashMap<>();
     private MenuItem meetingItem;
     private TextView meetingTextView;
-    private static final String CTSKey = "<enter CTS key here>";
+    public static final String CTSKey = "<enter CTS key here>";
     static final int SELECT_MEETING_RECOGNIZE_LANGUAGE_REQUEST = 0;
     private SpeechConfig speechConfig = null;
-    private static final String inroomEndpoint = "<enter your speech cognition server endpoint info here>";
+    public static final String inroomEndpoint = "<enter your speech cognition server endpoint info here>";
     private final ArrayList<String> attendeeName = new ArrayList<>();
     private final String logTag = "Meeting";
     private boolean meetingStarted = false;
@@ -150,6 +150,7 @@ public class enrollment extends AppCompatActivity {
         messagesView = findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
         player = new Player();
+
 
         //add attendees
         try {
@@ -380,5 +381,5 @@ public class enrollment extends AppCompatActivity {
     private void displayException(Exception ex) {
         meetingTextView.setText(ex.getMessage() + "\n" + TextUtils.join("\n", ex.getStackTrace()));
     }
-
+   
 }

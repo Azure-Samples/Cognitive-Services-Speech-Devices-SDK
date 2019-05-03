@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 15
@@ -25,5 +25,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.0'
+    implementation 'com.android.support:appcompat-v7:22.1.0'
 }

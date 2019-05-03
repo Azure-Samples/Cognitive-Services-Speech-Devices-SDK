@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private static String Keyword = "computer";
     private static String KeywordModel = "computer.zip";
 
-    private static String DeviceGeometry = "<enter your microphone geometry>"; //"Circular6+1" or "Linear4"
-    private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1" or "Linear4"
+    private static String DeviceGeometry = "<enter your microphone geometry>"; //"Circular6+1", "Linear4",
+    private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"
 
 
     // Note: point this to a wav file in case you don't want to
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
    	private static String translateLanguage = "zh-Hans";
 	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;  // The request code
     static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;  // The request code
-    static final int Setting_keys = 2;
     static final int SELECT_DEVICE_MICROPHONE_REQUEST = 3;
 
 
@@ -114,11 +113,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
             switch(item.getItemId()){
-                case R.id.subscriptionKey:{
-                    Intent subscriptionKeyIntent = new Intent(this, subcriptionKey.class );
-                    startActivityForResult(subscriptionKeyIntent, Setting_keys);
-                    return true;
-                }
                 case R.id.RecoLanguage : {
                     Intent selectLanguageIntent = new Intent(this,listLanguage.class);
                     selectLanguageIntent.putExtra("RecognizeOrTranslate", SELECT_RECOGNIZE_LANGUAGE_REQUEST);
@@ -131,12 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(selectLanguageIntent, SELECT_TRANSLATE_LANGUAGE_REQUEST);
                     return true;
                 }
-                case R.id.deviceMicrophone: {
-                    Intent selectLanguageIntent = new Intent(this, listLanguage.class);
-                    selectLanguageIntent.putExtra("RecognizeOrTranslate", SELECT_DEVICE_MICROPHONE_REQUEST);
-                    startActivityForResult(selectLanguageIntent, SELECT_DEVICE_MICROPHONE_REQUEST);
-                    return true;
-                }
+
 
                 default:
                     return super.onContextItemSelected(item);
@@ -168,24 +157,37 @@ public class MainActivity extends AppCompatActivity {
         // check if we have a valid key
         ///////////////////////////////////////////////////
         if (SpeechSubscriptionKey.startsWith("<") || SpeechSubscriptionKey.endsWith(">")) {
-            recognizedTextView.setText("Error: Replace SpeechSubscriptionKey with your actual subscription key and re-compile this application!");
+            recognizedTextView.setText( "Error: Replace SpeechSubscriptionKey with your actual subscription key and re-compile!");
             return;
         }
         ///////////////////////////////////////////////////
         // check if we have a valid microphone parameter
         ///////////////////////////////////////////////////
         if(DeviceGeometry.startsWith("<") || DeviceGeometry.endsWith(">") ){
-            recognizedTextView.setText("Error: Replace DeviceGeometry with your actual microphone parameter!");
+            recognizedTextView.setText( "Error: Replace DeviceGeometry with your actual microphone parameter and re-compile");
             return;
         }
         if(SelectedGeometry.startsWith("<") || SelectedGeometry.endsWith(">") ){
-            recognizedTextView.setText("Error: Replace SelectedGeometry with your actual select parameter!");
+            recognizedTextView.setText("Error: Replace SelectedGeometry with your actual select parameter and re-compile!");
             return;
         }
 
         if (LuisSubscriptionKey.startsWith("<") || LuisSubscriptionKey.endsWith(">")) {
             recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace LuisSubscriptionKey with your actual Luis subscription key to use Intents!");
         }
+		
+		 ///////////////////////////////////////////////////
+        // check if we have a CTS key
+        ///////////////////////////////////////////////////
+
+        if (enrollment.CTSKey.startsWith("<") || enrollment.CTSKey.endsWith(">")) {
+            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS SubscriptionKey with your actual subscription key if you use the meeting function and re-compile!");
+        }
+       
+        if(enrollment.inroomEndpoint.startsWith("<") || enrollment.inroomEndpoint.endsWith(">") ){
+            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS endpoint with your CTS endpoint parameter if you use the meeting function and re-compile!");
+        }
+
 
 
         // save the asset manager
@@ -728,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SELECT_RECOGNIZE_LANGUAGE_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                String language = data.getStringExtra("languageOrDevice");
+                String language = data.getStringExtra("language");
                 languageRecognition = getCode(0,language);
                 recognizeLanguageTextView.setText(language);
             }
@@ -736,29 +738,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SELECT_TRANSLATE_LANGUAGE_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                String language = data.getStringExtra("languageOrDevice");
+                String language = data.getStringExtra("language");
                 translateLanguage = getCode(1,language);
                 translateLanguageTextView.setText(language);
-            }
-        }
-        if (requestCode == SELECT_DEVICE_MICROPHONE_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                String deviceMicrophone = data.getStringExtra("languageOrDevice");
-                DeviceGeometry = deviceMicrophone;
-                SelectedGeometry = deviceMicrophone;
-                Log.i("Setting Microphone", deviceMicrophone);
-            }
-        }
-        if(requestCode == Setting_keys){
-            if(resultCode == RESULT_OK){
-                ArrayList<String> keys = new ArrayList<>();
-                keys = data.getStringArrayListExtra("keys");
-                SpeechSubscriptionKey = keys.get(0);
-                SpeechRegion = keys.get(1);
-                LuisSubscriptionKey = keys.get(2);
-                LuisRegion = keys.get(3);
-                LuisAppId = keys.get(4);
             }
         }
     }
@@ -794,15 +776,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    public static String getSpeechSubscriptionKey(){
-        return SpeechSubscriptionKey;
-    }
-    public static String getSpeechRegion(){
-        return SpeechRegion;
-    }
-    public static String getLuisSubscriptionKey() {return LuisSubscriptionKey;}
-    public static String getLuisRegion() {return LuisRegion;}
-    public static String getLuisAppId() { return LuisAppId; }
-
 }

@@ -17,7 +17,7 @@ public class Player {
     private Synthesizer synthesizer;
 
     public Player() {
-        synthesizer = new Synthesizer("e7efabfbf235419d8951f5f382e168fa");
+        synthesizer = new Synthesizer("<TTS key>");
         //Voice voice = new Voice("en-US", "Microsoft Server Speech Text to Speech Voice (en-US, BenjaminRUS)", Voice.Gender.Male, true);
         Voice voice = new Voice("en-US", "Microsoft Server Speech Text to Speech Voice (en-US, Guy24kRUS)", Voice.Gender.Female, true);
         // Voice voice = new Voice("en-US", "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)", Voice.Gender.Female, true);

@@ -40,6 +40,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.jar')
-    implementation project(path: ':speechttssdk')
-
-}
+   }

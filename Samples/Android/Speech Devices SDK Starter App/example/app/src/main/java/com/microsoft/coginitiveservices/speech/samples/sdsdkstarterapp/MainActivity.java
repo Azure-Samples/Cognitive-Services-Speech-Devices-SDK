@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"
 
 
-
     // Note: point this to a wav file in case you don't want to
     //       use the microphone. It will be used automatically, if
     //       the file exists on disk.
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     private Button recognizeKwsButton;
     private Button recognizeIntentButton;
     private Button recognizeIntentKwsButton;
-    private Button meetingButton;
     private Button translateButton;
     private TextView recognizeLanguageTextView;
     private TextView translateLanguageTextView;
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         translateButton = findViewById(R.id.buttonTranslate);
         recognizeLanguageTextView = findViewById(R.id.textViewRecognitionLanguage);
         translateLanguageTextView = findViewById(R.id.textViewTranslateLanguage);
-        meetingButton = findViewById(R.id.buttonMeeting);
+
         mainToolbar = findViewById(R.id.mainToolbar);
 
         setSupportActionBar(mainToolbar);
@@ -177,19 +175,6 @@ public class MainActivity extends AppCompatActivity {
             recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace LuisSubscriptionKey with your actual Luis subscription key to use Intents!");
         }
 		
-		 ///////////////////////////////////////////////////
-        // check if we have a CTS key
-        ///////////////////////////////////////////////////
-
-        if (enrollment.CTSKey.startsWith("<") || enrollment.CTSKey.endsWith(">")) {
-            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS SubscriptionKey with your actual subscription key if you use the meeting function and re-compile!");
-        }
-       
-        if(enrollment.inroomEndpoint.startsWith("<") || enrollment.inroomEndpoint.endsWith(">") ){
-            recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace CTS endpoint with your CTS endpoint parameter if you use the meeting function and re-compile!");
-        }
-
-
 
         // save the asset manager
         final AssetManager assets = this.getAssets();
@@ -578,15 +563,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ///////////////////////////////////////////////////
-        // Meeting
-        ///////////////////////////////////////////////////
-        meetingButton.setOnClickListener(view ->{
-            if(!checkSystemTime()) return;
-            Intent meetingIntent = new Intent(this, enrollment.class);
-            startActivity(meetingIntent);
 
-        });
         ///////////////////////////////////////////////////
         // recognize and translate
         ///////////////////////////////////////////////////
@@ -713,7 +690,6 @@ public class MainActivity extends AppCompatActivity {
             recognizeKwsButton.setEnabled(false);
             recognizeIntentButton.setEnabled(false);
             recognizeIntentKwsButton.setEnabled(false);
-            meetingButton.setEnabled(false);
             translateButton.setEnabled(false);
         });
     }
@@ -725,7 +701,6 @@ public class MainActivity extends AppCompatActivity {
             recognizeKwsButton.setEnabled(true);
             recognizeIntentButton.setEnabled(true);
             recognizeIntentKwsButton.setEnabled(true);
-            meetingButton.setEnabled(true);
             translateButton.setEnabled(true);
         });
     }

@@ -28,10 +28,6 @@
             android:name=".listLanguage"
             android:label="@string/title_activity_list_language"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".enrollment"
-            android:label="@string/title_activity_enrollment"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

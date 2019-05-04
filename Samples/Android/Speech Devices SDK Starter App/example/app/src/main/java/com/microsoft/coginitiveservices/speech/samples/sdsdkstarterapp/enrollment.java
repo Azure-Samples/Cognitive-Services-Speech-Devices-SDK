@@ -66,12 +66,6 @@ public class enrollment extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.RecoLanguage: {
-                Intent selectLanguageIntent = new Intent(this, listLanguage.class);
-                selectLanguageIntent.putExtra("RecognizeOrTranslate", 0);
-                startActivityForResult(selectLanguageIntent, SELECT_MEETING_RECOGNIZE_LANGUAGE_REQUEST);
-                return true;
-            }
             case R.id.back: {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
@@ -344,19 +338,6 @@ public class enrollment extends AppCompatActivity {
             }
         });
     }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == SELECT_MEETING_RECOGNIZE_LANGUAGE_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                String language = data.getStringExtra("languageOrDevice");
-                speechConfig.setSpeechRecognitionLanguage(getCode(0, language));
-                Log.i(logTag, language + " Recognizing");
-            }
-        }
-    }
-
 
     public void switchMeetingStatus(String text, MenuItem item) {
         item.setTitle(text);

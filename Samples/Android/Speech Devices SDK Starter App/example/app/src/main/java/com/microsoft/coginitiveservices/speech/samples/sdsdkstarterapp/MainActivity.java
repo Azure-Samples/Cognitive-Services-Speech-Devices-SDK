@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"
 
 
+
     // Note: point this to a wav file in case you don't want to
     //       use the microphone. It will be used automatically, if
     //       the file exists on disk.
@@ -650,12 +651,15 @@ public class MainActivity extends AppCompatActivity {
                         final Map<String, String> translations = speechRecognitionResultEventArgs.getResult().getTranslations();
                         StringBuffer sb = new StringBuffer();
                         for (String key : translations.keySet()) {
-                            sb.append( key + " -> '" + translations.get(key) + "'\n");
+                            if(!translations.get(key).isEmpty()) {
+                                sb.append(key + " -> '" + translations.get(key) + "'\n");
+                            }
                         }
                         final String s = sb.toString();
-
                         Log.i(logTag, "Final result received: " + s);
-                        content.add(s);
+                        if(!s.isEmpty()) {
+                            content.add(s);
+                        }
                         setRecognizedText(TextUtils.join(" ", content));
                     });
 

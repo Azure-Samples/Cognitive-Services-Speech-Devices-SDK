@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private Button recognizeContinuousButton;
     private Button recognizeKwsButton;
     private Button recognizeIntentButton;
+    private Button ctsButton;
     private Button recognizeIntentKwsButton;
     private Button translateButton;
     private TextView recognizeLanguageTextView;
@@ -79,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
     private final HashMap<String, String> intentIdMap = new HashMap<>();
     private static String languageRecognition = "en-US";
    	private static String translateLanguage = "zh-Hans";
-	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;  // The request code
-    static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;  // The request code
-    static final int SELECT_DEVICE_MICROPHONE_REQUEST = 3;
+	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;
+    static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;
+
 
 
     private AudioConfig getAudioConfig() {
@@ -124,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(selectLanguageIntent, SELECT_TRANSLATE_LANGUAGE_REQUEST);
                     return true;
                 }
-
-
                 default:
                     return super.onContextItemSelected(item);
         }
@@ -143,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
         recognizeKwsButton = findViewById(R.id.buttonRecognizeKws);
         recognizeIntentButton = findViewById(R.id.buttonRecognizeIntent);
         recognizeIntentKwsButton = findViewById(R.id.buttonRecognizeIntentKws);
+        ctsButton = findViewById(R.id.buttonCts);
         recognizedTextView.setMovementMethod(new ScrollingMovementMethod());
         translateButton = findViewById(R.id.buttonTranslate);
         recognizeLanguageTextView = findViewById(R.id.textViewRecognitionLanguage);
         translateLanguageTextView = findViewById(R.id.textViewTranslateLanguage);
-
         mainToolbar = findViewById(R.id.mainToolbar);
 
         setSupportActionBar(mainToolbar);
@@ -175,11 +174,8 @@ public class MainActivity extends AppCompatActivity {
             recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace LuisSubscriptionKey with your actual Luis subscription key to use Intents!");
         }
 		
-
-        // save the asset manager
+		// save the asset manager
         final AssetManager assets = this.getAssets();
-
-
 
         ///////////////////////////////////////////////////
         // recognize Once with intermediate results
@@ -562,7 +558,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        ///////////////////////////////////////////////////
+        // Conversation Transcription
+        ///////////////////////////////////////////////////
+        ctsButton.setOnClickListener(view ->{
+            if(!checkSystemTime()) return;
+            Intent meetingIntent = new Intent(this, conversation.class);
+            startActivity(meetingIntent);
+        });
 
         ///////////////////////////////////////////////////
         // recognize and translate
@@ -690,6 +693,7 @@ public class MainActivity extends AppCompatActivity {
             recognizeKwsButton.setEnabled(false);
             recognizeIntentButton.setEnabled(false);
             recognizeIntentKwsButton.setEnabled(false);
+            ctsButton.setEnabled(false);
             translateButton.setEnabled(false);
         });
     }
@@ -701,13 +705,13 @@ public class MainActivity extends AppCompatActivity {
             recognizeKwsButton.setEnabled(true);
             recognizeIntentButton.setEnabled(true);
             recognizeIntentKwsButton.setEnabled(true);
+            ctsButton.setEnabled(true);
             translateButton.setEnabled(true);
         });
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
+
         if (requestCode == SELECT_RECOGNIZE_LANGUAGE_REQUEST) {
-            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 String language = data.getStringExtra("language");
                 languageRecognition = getCode(0,language);
@@ -715,7 +719,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (requestCode == SELECT_TRANSLATE_LANGUAGE_REQUEST) {
-            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 String language = data.getStringExtra("language");
                 translateLanguage = getCode(1,language);

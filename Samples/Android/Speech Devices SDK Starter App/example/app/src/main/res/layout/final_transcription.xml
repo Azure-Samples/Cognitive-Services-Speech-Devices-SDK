@@ -43,13 +43,12 @@
 
         <TextView
             android:id="@+id/speaker"
-            android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:text="Guest"
-            android:textSize="14sp"
-            android:textColor="#000000"
-            />
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/transcription_body"

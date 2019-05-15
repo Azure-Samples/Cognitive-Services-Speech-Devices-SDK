@@ -57,7 +57,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:paddingBottom="3dp"
-            android:text="This is a test transcription. You could check any words here."
+            android:text="This is a transcription. You could check any words here."
             android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>

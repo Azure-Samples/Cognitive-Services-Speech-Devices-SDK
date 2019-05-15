@@ -46,7 +46,6 @@ public class conversation extends AppCompatActivity {
     private static final String CTSKey = "<Conversation Transcription Service Key>";
     private SpeechConfig speechConfig = null;
     private static final String inroomEndpoint = "<Conversation Transcription Service Endpoint>";
-    private final ArrayList<String> attendeeName = new ArrayList<>();
     private final String logTag = "CTS";
     private boolean meetingStarted = false;
     private ConversationTranscriber transcriber = null;
@@ -102,7 +101,7 @@ public class conversation extends AppCompatActivity {
                         transcriber.addParticipant(user);
                         Participant participant = Participant.from(userId, "en-US", signatureMap.get(userId));
                         transcriber.addParticipant(participant);
-                        Log.i(logTag, "add attendee: " + userId);
+                        Log.i(logTag, "add participant: " + userId);
                     }
                     startRecognizeMeeting(transcriber);
                     switchMeetingStatus("End session", item);
@@ -130,8 +129,8 @@ public class conversation extends AppCompatActivity {
         IntermediateTextView.setMovementMethod(new ScrollingMovementMethod());
         setSupportActionBar(toolbar);
         Properties prop = new Properties();
-        InputStream attendeeIs = null;
-        String attendeeList = "";
+        InputStream participantIs = null;
+        String participantList = "";
         transcriptionAdapter = new TranscriptionAdapter(this);
         transcriptionView = findViewById(R.id.transcription_view);
         transcriptionView.setAdapter(transcriptionAdapter);
@@ -154,9 +153,9 @@ public class conversation extends AppCompatActivity {
 
         try
         {
-            attendeeIs = new FileInputStream("/video/attendee.properties");
-            prop.load(attendeeIs);
-            attendeeList = prop.getProperty("ATTENDEELIST");
+            participantIs = new FileInputStream("/video/participants.properties");
+            prop.load(participantIs);
+            participantList = prop.getProperty("PARTICIPANTSLIST");
         }
         catch (Exception io)
         {
@@ -164,32 +163,31 @@ public class conversation extends AppCompatActivity {
         }
         finally
         {
-            if (attendeeIs != null)
+            if (participantIs != null)
             {
                 try {
-                    attendeeIs.close();
+                    participantIs.close();
                 }
                 catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        if (attendeeList.length() == 0)
+        if (participantList.length() == 0)
         {
-            Log.i(logTag, "Please put attendees file in /video/attendees.properties");
-            appendTextLine("Please save the attendees' voice signatures in file-attendees.properties, and push the file under folder /video", true);
+            Log.i(logTag, "Please put participants file in /video/participants.properties");
+            appendTextLine("Please save the participants' voice signatures in file-participants.properties, and push the file under folder /video", true);
         }
         else
         {
-            while (attendeeList.length() != 0)
+            while (participantList.length() != 0)
             {
-                String aName = attendeeList.substring(attendeeList.indexOf('<') + 1, attendeeList.indexOf('@'));
-                String aSign = attendeeList.substring(attendeeList.indexOf('@') + 1, attendeeList.indexOf('>'));
-                attendeeName.add(aName);
+                String aName = participantList.substring(participantList.indexOf('<') + 1, participantList.indexOf('@'));
+                String aSign = participantList.substring(participantList.indexOf('@') + 1, participantList.indexOf('>'));
                 signatureMap.put(aName, aSign);
                 Log.i(logTag, aName);
                 Log.i(logTag, aSign);
-                attendeeList = attendeeList.substring(attendeeList.indexOf('>') + 1);
+                participantList = participantList.substring(participantList.indexOf('>') + 1);
             }
         }
 

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".enrollment"
-    tools:showIn="@layout/activity_enrollment">
+    tools:context=".conversation"
+    tools:showIn="@layout/activity_conversation">
 
     <LinearLayout
         android:layout_width="match_parent"

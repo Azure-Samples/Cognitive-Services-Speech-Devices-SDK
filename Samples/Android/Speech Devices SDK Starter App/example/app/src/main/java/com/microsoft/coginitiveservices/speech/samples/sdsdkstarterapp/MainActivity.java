@@ -80,10 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private final HashMap<String, String> intentIdMap = new HashMap<>();
     private static String languageRecognition = "en-US";
    	private static String translateLanguage = "zh-Hans";
-	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;
-    static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;
-
-
+   	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;
+   	static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;
 
     private AudioConfig getAudioConfig() {
         if(new File(SampleAudioInput).exists()) {
@@ -173,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
         if (LuisSubscriptionKey.startsWith("<") || LuisSubscriptionKey.endsWith(">")) {
             recognizedTextView.setText(recognizedTextView.getText() + "\nWarning: Replace LuisSubscriptionKey with your actual Luis subscription key to use Intents!");
         }
-		
-		// save the asset manager
+
+        // save the asset manager
         final AssetManager assets = this.getAssets();
 
         ///////////////////////////////////////////////////

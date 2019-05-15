@@ -1,1 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"    android:layout_width="match_parent"    android:layout_height="match_parent"    tools:context=".conversation">    <android.support.design.widget.AppBarLayout        android:layout_width="match_parent"        android:layout_height="wrap_content"        android:theme="@style/AppTheme.PopupOverlay">        <android.support.v7.widget.Toolbar            android:id="@+id/CTStoolbar"            android:layout_width="match_parent"            android:layout_height="35dp"            android:background="?attr/colorPrimary"            android:elevation="4dp"            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"            app:title="Conversation Transcription"            app:titleTextColor="@android:color/darker_gray" />    </android.support.design.widget.AppBarLayout>    <include layout="@layout/content_conversation" /></android.support.design.widget.CoordinatorLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".conversation">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.PopupOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/CTStoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Conversation Transcription"
+            app:titleTextColor="@android:color/darker_gray" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_conversation" />
+
+</android.support.design.widget.CoordinatorLayout>

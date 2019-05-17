@@ -44,18 +44,20 @@ public class conversation extends AppCompatActivity {
     private HashMap<String, Integer> colorMap = new HashMap<>();
     private TextView IntermediateTextView;
     private static final String CTSKey = "<Conversation Transcription Service Key>";
+    private static final String CTSRegion="<Conversation Transcription Service Region>";// Region may be "centralus" or "eastasia"
     private SpeechConfig speechConfig = null;
-    private static final String inroomEndpoint = "<Conversation Transcription Service Endpoint>";
     private final String logTag = "CTS";
     private boolean meetingStarted = false;
     private ConversationTranscriber transcriber = null;
     private final HashMap<Pair<String, BigInteger>, ConversationTranscriptionEventArgs> transcriptions = new HashMap<>();
     private TranscriptionAdapter transcriptionAdapter;
     private ListView transcriptionView;
+    private Menu optionMenu;
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.ctsmenu, menu);
+        optionMenu = menu;
         return true;
     }
 
@@ -66,6 +68,10 @@ public class conversation extends AppCompatActivity {
             case R.id.back:
             {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                if (meetingStarted)
+                {
+                    stopClicked(optionMenu.findItem(R.id.startOrStopMeeting));
+                }
                 return true;
             }
             case R.id.startOrStopMeeting:
@@ -76,7 +82,7 @@ public class conversation extends AppCompatActivity {
                     return true;
                 }
                 clearTextBox();
-                speechConfig = SpeechConfig.fromEndpoint(URI.create(inroomEndpoint), CTSKey);
+                speechConfig = speechConfig.fromSubscription(CTSKey,CTSRegion);
                 speechConfig.setProperty("DeviceGeometry", "Circular6+1");
                 speechConfig.setProperty("SelectedGeometry", "Raw");
                 try
@@ -146,8 +152,8 @@ public class conversation extends AppCompatActivity {
         ///////////////////////////////////////////////////
         // check if we have a valid endpoint
         ///////////////////////////////////////////////////
-        if (inroomEndpoint.startsWith("<") || inroomEndpoint.endsWith(">")) {
-            appendTextLine( "Error: Replace inroomEndpoint with your actual Conversation Transcription Service endpoint and re-compile!", true);
+        if (CTSRegion.startsWith("<") || CTSRegion.endsWith(">")) {
+           appendTextLine( "Error: Replace CTSRegion with your actual Conversation Transcription Service region and re-compile!", true);
             return;
         }
 

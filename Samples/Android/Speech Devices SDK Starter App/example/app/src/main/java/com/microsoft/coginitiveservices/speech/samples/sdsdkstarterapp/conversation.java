@@ -145,7 +145,7 @@ public class conversation extends AppCompatActivity {
         // check if we have a valid key
         ///////////////////////////////////////////////////
         if (CTSKey.startsWith("<") || CTSKey.endsWith(">")) {
-            appendTextLine( "Error: Replace CTSKey with your actual subscription Conversation Transcription Service key and re-compile!", true);
+            appendTextLine( "Error: Replace CTSKey with your actual speech subscription key and re-compile!", true);
             return;
         }
 
@@ -153,12 +153,14 @@ public class conversation extends AppCompatActivity {
         // check if we have a valid endpoint
         ///////////////////////////////////////////////////
         if (CTSRegion.startsWith("<") || CTSRegion.endsWith(">")) {
-           appendTextLine( "Error: Replace CTSRegion with your actual Conversation Transcription Service region and re-compile!", true);
+           appendTextLine( "Error: Replace CTSRegion with your speech subscription key's service region and re-compile!", true);
             return;
         }
 
         try
         {
+			/* example/participants.properties is for storing participants' voice signatures, please push the file under folder /video on DDK device.
+			   please refer to Enrollment.java to get a participant's voice signature.*/
             participantIs = new FileInputStream("/video/participants.properties");
             prop.load(participantIs);
             participantList = prop.getProperty("PARTICIPANTSLIST");

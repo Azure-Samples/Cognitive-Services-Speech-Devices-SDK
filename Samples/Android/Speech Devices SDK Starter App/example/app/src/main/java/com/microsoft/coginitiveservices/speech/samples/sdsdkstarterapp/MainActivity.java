@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Subscription
     private static String SpeechSubscriptionKey = "<enter your subscription info here>";
-    private static String SpeechRegion = "westus2"; // You can change this, if you want to test the intent, and your LUIS region is different.
+    private static String SpeechRegion = "westus"; // You can change this, if you want to test the intent, and your LUIS region is different.
     private static String LuisSubscriptionKey = "<enter your subscription info here>";
     private static String LuisRegion = "westus2"; // you can change this, if you want to test the intent, and your LUIS region is different.
     private static String LuisAppId = "<enter your LUIS AppId>";
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         // check if we have a valid key
         ///////////////////////////////////////////////////
         if (SpeechSubscriptionKey.startsWith("<") || SpeechSubscriptionKey.endsWith(">")) {
-            recognizedTextView.setText( "Error: Replace SpeechSubscriptionKey with your actual subscription key and re-compile!");
+            recognizedTextView.setText( "Error: Replace SpeechSubscriptionKey with your actual speech subscription key  and re-compile!");
             return;
         }
         ///////////////////////////////////////////////////

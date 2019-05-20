@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".conversation"
+    tools:showIn="@layout/activity_conversation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:focusableInTouchMode="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/transcription_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="3dp"
+            android:divider="#ffffff" />
+
+        <TextView
+            android:id="@+id/IntermediateView"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/intermediate_transcription"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="2dp"
+            android:fadeScrollbars="false"
+            android:gravity="bottom"
+            android:scrollbarFadeDuration="2000"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:text=""
+            android:lineSpacingExtra="1.5dp"
+            android:textSize="12sp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

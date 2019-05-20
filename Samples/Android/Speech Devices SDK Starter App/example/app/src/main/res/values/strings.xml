@@ -7,13 +7,11 @@
     <string name="recognizeWithWakeWord">Recognize With Wake Word</string>
     <string name="recognizeIntent">Recognize Intent</string>
     <string name="recognizeIntentWithWakeWord">Recognize Intent With Wake Word</string>
-    <string name="Tts">Text to Speech</string>
-    <string name="Meeting">Meeting</string>
-    <string name="Translate">Translate To:    </string>
+     <string name="Translate">Translate To:    </string>
     <string name="recognizeEnglish">Recognize English</string>
     <string name="recognizeChinese">Recognize Chinese</string>
     <string name="translateChinese">Chinese</string>
     <string name="translateGerman">German</string>
     <string name="title_activity_list_language">listLanguage</string>
-    <string name="title_activity_enrollment">enrollment</string>
+     <string name="title_activity_conversation">conversation</string>
 </resources>

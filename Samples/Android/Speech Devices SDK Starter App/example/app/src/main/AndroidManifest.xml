@@ -3,10 +3,9 @@
     package="com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+   
 
     <application
         android:allowBackup="true"
@@ -28,6 +27,11 @@
             android:name=".listLanguage"
             android:label="@string/title_activity_list_language"
             android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+            android:name=".conversation"
+            android:label="@string/title_activity_conversation"
+            android:theme="@style/NoActionBar">
+		</activity>
     </application>
 
 </manifest>

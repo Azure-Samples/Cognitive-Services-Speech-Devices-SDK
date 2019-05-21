@@ -34,7 +34,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void runSpeechSDKtests() {
         loadTestProperties("/data/local/tmp/tests/test-java-unittests.properties");
-        tests.runner.Runner.mainRunner("tests.unit.AllUnitTests");
+        //tests.runner.Runner.mainRunner("tests.unit.AllUnitTests");
     }
 
     @SuppressWarnings("deprecation")

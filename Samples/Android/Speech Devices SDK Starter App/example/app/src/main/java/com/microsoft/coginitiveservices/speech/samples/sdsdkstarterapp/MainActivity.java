@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Subscription
     private static String SpeechSubscriptionKey = "<enter your subscription info here>";
-    private static String SpeechRegion = "westus"; // You can change this, if you want to test the intent, and your LUIS region is different.
+    private static String SpeechRegion = "westus"; // You can change this if your speech region is different.
     private static String LuisSubscriptionKey = "<enter your subscription info here>";
     private static String LuisRegion = "westus2"; // you can change this, if you want to test the intent, and your LUIS region is different.
     private static String LuisAppId = "<enter your LUIS AppId>";

@@ -159,9 +159,8 @@ public class conversation extends AppCompatActivity {
 
         try
         {
-			/* example/participants.properties is for storing participants' voice signatures, please push the file under folder /video on DDK device.
-			   please refer to Enrollment.java to get a participant's voice signature.*/
-            participantIs = new FileInputStream("/video/participants.properties");
+			// example/participants.properties is for storing participants' voice signatures, please push the file under folder /video on DDK device.
+			participantIs = new FileInputStream("/video/participants.properties");
             prop.load(participantIs);
             participantList = prop.getProperty("PARTICIPANTSLIST");
         }

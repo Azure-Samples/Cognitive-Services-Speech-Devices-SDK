@@ -42,7 +42,7 @@ public class listLanguage extends AppCompatActivity {
                 }
             }
 
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         listViewlanguage.setAdapter(adapter);
 
         listViewlanguage.setOnItemClickListener(new AdapterView.OnItemClickListener() {

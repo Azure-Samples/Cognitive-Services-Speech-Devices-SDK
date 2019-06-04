@@ -307,7 +307,7 @@ speechConfig = speechConfig.fromSubscription(CTSKey,CTSRegion);
 speechConfig.setProperty("DeviceGeometry", "Circular6+1");
 speechConfig.setProperty("SelectedGeometry", "Raw");
 
-//Creat a ConversationTranscriber with speech configuration and default microphone input, then set the conversation ID. 
+//Create a ConversationTranscriber with speech configuration and default microphone input, then set the conversation ID. 
 transcriber = new ConversationTranscriber(speechConfig, AudioConfig.fromDefaultMicrophoneInput());
 transcriber.setConversationId("MeetingTest");
 

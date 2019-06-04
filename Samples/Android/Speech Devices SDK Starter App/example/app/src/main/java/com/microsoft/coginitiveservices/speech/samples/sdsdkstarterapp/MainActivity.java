@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private static String LuisAppId = "<enter your LUIS AppId>";
 
     private static String Keyword = "computer";
-    private static String KeywordModel = "computer.zip";
+    private static String KeywordModel = "computer.zip";// set your own keyword package name. 
 
     private static String DeviceGeometry = "<enter your microphone geometry>"; //"Circular6+1", "Linear4",
     private static String SelectedGeometry = "<enter your select geometry>"; //"Circular6+1", "Circular3+1", "Linear4", "Linear2"

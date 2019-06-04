@@ -325,7 +325,7 @@ t.recognizing.addEventListener((o, e) -> eventHandler(e));
 
 // Set callback for final results in function startRecognizeMeeting
  t.recognized.addEventListener((o, e) -> {
- .........
+	//.........
  });
 
 // Start recognition in function startRecognizeMeeting
@@ -336,6 +336,6 @@ final Future<Void> task = t.startTranscribingAsync();
 transcriber.stopTranscribingAsync().get();
 final Future<Void> task = transcriber.endConversationAsync();
 setOnTaskCompletedListener(task, result -> {
-    ..................
+    //..................
 });
 ```

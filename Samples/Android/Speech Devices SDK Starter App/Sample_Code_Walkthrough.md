@@ -1,6 +1,6 @@
 # Speech Devices SDK sample code walk through for Android
 
-In this walk through, we will discuss demonstrate 6 six typical user scenarios of Speech Devices SDK. In each scenario, you will need to create a ```SpeechFactory``` and set PMA microphones’ parameters first.
+In this walk through, we will discuss demonstrate six typical user scenarios of Speech Recognition Devices SDK and one user scenario of Conversation Transcription SDK. In each Speech Recognition scenario, you will need to create a ```SpeechFactory``` and set PMA microphones’ parameters first.
 ```java
 // Cognitive Serivces Speech API subscribtion info
 final String SpeechSubscriptionKey = "<enter your subscription info here>";
@@ -285,5 +285,57 @@ final Future<Void> task = reco.startContinuousRecognitionAsync();
 setOnTaskCompletedListener(task, result -> {
     // your code goes here
     // ...
+});
+```
+
+7. Conversation Transcription Service
+
+```java
+//Loading conversation participants configuration file
+participantIs = new FileInputStream("/video/participants.properties");
+prop.load(participantIs);
+participantList = prop.getProperty("PARTICIPANTSLIST");
+
+
+//Conversation Transcription service API subscribtion info
+private static final String CTSKey = "<Conversation Transcription Service Key>";
+private static final String CTSRegion="<Conversation Transcription Service Region>";// Region may be "centralus" or "eastasia"
+
+
+// Set speech configuration
+speechConfig = speechConfig.fromSubscription(CTSKey,CTSRegion);
+speechConfig.setProperty("DeviceGeometry", "Circular6+1");
+speechConfig.setProperty("SelectedGeometry", "Raw");
+
+//Creat a ConversationTranscriber with speech configuration and default microphone input, then set the conversation ID. 
+transcriber = new ConversationTranscriber(speechConfig, AudioConfig.fromDefaultMicrophoneInput());
+transcriber.setConversationId("MeetingTest");
+
+//add userID and userSignature, then start conversation session
+for (String userId : signatureMap.keySet()) {
+    User user = User.fromUserId(userId);
+    transcriber.addParticipant(user);
+    Participant participant = Participant.from(userId, "en-US", signatureMap.get(userId));
+    transcriber.addParticipant(participant);
+}
+startRecognizeMeeting(transcriber);
+
+// Set callback for intermediate results in function startRecognizeMeeting
+t.recognizing.addEventListener((o, e) -> eventHandler(e));
+
+// Set callback for final results in function startRecognizeMeeting
+ t.recognized.addEventListener((o, e) -> {
+ .........
+ });
+
+// Start recognition in function startRecognizeMeeting
+final Future<Void> task = t.startTranscribingAsync();
+
+
+//Stop conversation session
+transcriber.stopTranscribingAsync().get();
+final Future<Void> task = transcriber.endConversationAsync();
+setOnTaskCompletedListener(task, result -> {
+    ..................
 });
 ```

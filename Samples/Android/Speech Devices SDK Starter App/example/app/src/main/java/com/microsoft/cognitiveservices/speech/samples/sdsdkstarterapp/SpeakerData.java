@@ -1,4 +1,4 @@
-package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
+package com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp;
 
 class SpeakerData {
     private String speaker;

@@ -1,4 +1,4 @@
-package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
+package com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-import static com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp.MainActivity.SELECT_RECOGNIZE_LANGUAGE_REQUEST;
-import static com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp.MainActivity.SELECT_TRANSLATE_LANGUAGE_REQUEST;
+import static com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp.MainActivity.SELECT_RECOGNIZE_LANGUAGE_REQUEST;
+import static com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp.MainActivity.SELECT_TRANSLATE_LANGUAGE_REQUEST;
 
 public class listLanguage extends AppCompatActivity {
     private ListView listViewlanguage;

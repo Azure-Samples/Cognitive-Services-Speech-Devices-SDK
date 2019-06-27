@@ -1,4 +1,4 @@
-package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
+package com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp;
 
 
 import android.content.Intent;
@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp.LanguageCode.getCode;
+import static com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp.LanguageCode.getCode;
 import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizedKeyword;
 import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizingSpeech;
 

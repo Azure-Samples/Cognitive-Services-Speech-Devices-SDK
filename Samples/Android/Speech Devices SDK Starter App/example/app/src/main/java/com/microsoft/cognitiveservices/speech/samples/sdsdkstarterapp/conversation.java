@@ -1,4 +1,4 @@
-package com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp;
+package com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -198,8 +196,7 @@ public class conversation extends AppCompatActivity {
             }
         }
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
+	}
 
     private void eventHandler(ConversationTranscriptionEventArgs e)
     {
@@ -219,7 +216,7 @@ public class conversation extends AppCompatActivity {
         {
             if (transcriptions.containsKey(key))
             {
-                if (transcriptions.get(key).getResult().getReason() == ResultReason.RecognizedSpeech)
+                if (transcriptions.get(key).getResult().getReason() == ResultReason.RecognizingSpeech)
                 {
                     Log.e(logTag, "Two utterances occur at the same time. Offset: " + offset + "; text: " + text);
                 }

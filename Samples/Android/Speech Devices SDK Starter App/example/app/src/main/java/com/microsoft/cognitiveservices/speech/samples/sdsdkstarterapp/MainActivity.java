@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView translateLanguageTextView;
     private Toolbar mainToolbar;
     private final HashMap<String, String> intentIdMap = new HashMap<>();
-    private static String languageRecognition = "en-US";
-   	private static String translateLanguage = "zh-Hans";
+    private static String LanguageRecognition = "en-US";
+   	private static String TranslateLanguage = "zh-Hans";
    	static final int SELECT_RECOGNIZE_LANGUAGE_REQUEST = 0;
    	static final int SELECT_TRANSLATE_LANGUAGE_REQUEST = 1;
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         // PMA parameters
         speechConfig.setProperty("DeviceGeometry", DeviceGeometry);
         speechConfig.setProperty("SelectedGeometry", SelectedGeometry);
-        speechConfig.setSpeechRecognitionLanguage(languageRecognition);
+        speechConfig.setSpeechRecognitionLanguage(LanguageRecognition);
 
         return speechConfig;
     }
@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
             switch(item.getItemId()){
                 case R.id.RecoLanguage : {
-                    Intent selectLanguageIntent = new Intent(this,listLanguage.class);
+                    Intent selectLanguageIntent = new Intent(this,ListLanguage.class);
                     selectLanguageIntent.putExtra("RecognizeOrTranslate", SELECT_RECOGNIZE_LANGUAGE_REQUEST);
                     startActivityForResult(selectLanguageIntent, SELECT_RECOGNIZE_LANGUAGE_REQUEST);
                     return true;
                 }
                 case R.id.TranLanguage :{
-                    Intent selectLanguageIntent = new Intent(this, listLanguage.class);
+                    Intent selectLanguageIntent = new Intent(this, ListLanguage.class);
                     selectLanguageIntent.putExtra("RecognizeOrTranslate", SELECT_TRANSLATE_LANGUAGE_REQUEST);
                     startActivityForResult(selectLanguageIntent, SELECT_TRANSLATE_LANGUAGE_REQUEST);
                     return true;
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         // check if we have a valid key
         ///////////////////////////////////////////////////
         if (SpeechSubscriptionKey.startsWith("<") || SpeechSubscriptionKey.endsWith(">")) {
-            recognizedTextView.setText( "Error: Replace SpeechSubscriptionKey with your actual speech subscription key  and re-compile!");
+            recognizedTextView.setText( "Error: Replace SpeechSubscriptionKey with your actual speech subscription key and re-compile!");
             return;
         }
         ///////////////////////////////////////////////////
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             try {
-                Log.i(logTag, languageRecognition);
+                Log.i(logTag, LanguageRecognition);
 
                 final SpeechRecognizer reco = new SpeechRecognizer(this.getSpeechConfig(), this.getAudioConfig());
                 reco.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
                 final SpeechConfig speechIntentConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
                 speechIntentConfig.setProperty("DeviceGeometry", DeviceGeometry);
                 speechIntentConfig.setProperty("SelectedGeometry", SelectedGeometry);
-                speechIntentConfig.setSpeechRecognitionLanguage(languageRecognition);
+                speechIntentConfig.setSpeechRecognitionLanguage(LanguageRecognition);
                 IntentRecognizer reco = new IntentRecognizer(speechIntentConfig, getAudioConfig());
 
                 LanguageUnderstandingModel intentModel = LanguageUnderstandingModel.fromAppId(LuisAppId);
@@ -483,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
                 content.add("");
                 try {
                     final SpeechConfig intentSpeechConfig = SpeechConfig.fromSubscription(LuisSubscriptionKey, LuisRegion);
-                    intentSpeechConfig.setSpeechRecognitionLanguage(languageRecognition);
+                    intentSpeechConfig.setSpeechRecognitionLanguage(LanguageRecognition);
                     intentSpeechConfig.setProperty("DeviceGeometry", DeviceGeometry);
                     intentSpeechConfig.setProperty("SelectedGeometry", SelectedGeometry);
                     reco = new IntentRecognizer(intentSpeechConfig, getAudioConfig());
@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
         ///////////////////////////////////////////////////
         ctsButton.setOnClickListener(view ->{
             if(!checkSystemTime()) return;
-            Intent meetingIntent = new Intent(this, conversation.class);
+            Intent meetingIntent = new Intent(this, Conversation.class);
             startActivity(meetingIntent);
         });
 
@@ -604,9 +604,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     content.clear();
                     final SpeechTranslationConfig translationSpeechConfig = SpeechTranslationConfig.fromSubscription(SpeechSubscriptionKey, SpeechRegion);
-                    translationSpeechConfig.addTargetLanguage(languageRecognition);
-                    translationSpeechConfig.addTargetLanguage(translateLanguage);
-                    translationSpeechConfig.setSpeechRecognitionLanguage(languageRecognition);
+                    translationSpeechConfig.addTargetLanguage(LanguageRecognition);
+                    translationSpeechConfig.addTargetLanguage(TranslateLanguage);
+                    translationSpeechConfig.setSpeechRecognitionLanguage(LanguageRecognition);
                     translationSpeechConfig.setProperty("DeviceGeometry", DeviceGeometry);
                     translationSpeechConfig.setProperty("SelectedGeometry", SelectedGeometry);
                     reco = new TranslationRecognizer(translationSpeechConfig, getAudioConfig());
@@ -712,14 +712,14 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SELECT_RECOGNIZE_LANGUAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 String language = data.getStringExtra("language");
-                languageRecognition = getCode(0,language);
+                LanguageRecognition = getCode(0,language);
                 recognizeLanguageTextView.setText(language);
             }
         }
         if (requestCode == SELECT_TRANSLATE_LANGUAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 String language = data.getStringExtra("language");
-                translateLanguage = getCode(1,language);
+                TranslateLanguage = getCode(1,language);
                 translateLanguageTextView.setText(language);
             }
         }

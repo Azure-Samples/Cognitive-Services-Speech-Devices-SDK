@@ -28,13 +28,13 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp", appContext.getPackageName());
+        assertEquals("com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp", appContext.getPackageName());
     }
 
     @Test
     public void runSpeechSDKtests() {
         loadTestProperties("/data/local/tmp/tests/test-java-unittests.properties");
-        //tests.runner.Runner.mainRunner("tests.unit.AllUnitTests");
+        tests.runner.Runner.mainRunner("tests.unit.AllUnitTests");
     }
 
     @SuppressWarnings("deprecation")

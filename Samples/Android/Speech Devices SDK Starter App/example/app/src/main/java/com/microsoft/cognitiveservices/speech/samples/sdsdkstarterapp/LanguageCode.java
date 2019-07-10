@@ -1,7 +1,7 @@
 package com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp;
 
 import java.util.HashMap;
-
+import java.util.Map;
 
 public class LanguageCode {
     private static HashMap<String, String> mapRecolanguageCode = new HashMap<String, String>(){

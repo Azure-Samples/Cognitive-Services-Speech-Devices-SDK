@@ -9,7 +9,7 @@ android {
 
     }
     defaultConfig {
-        applicationId "com.microsoft.coginitiveservices.speech.samples.sdsdkstarterapp"
+        applicationId "com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp"
         minSdkVersion 22
         targetSdkVersion 27
         versionCode 1
@@ -40,4 +40,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.jar')
-   }
+}

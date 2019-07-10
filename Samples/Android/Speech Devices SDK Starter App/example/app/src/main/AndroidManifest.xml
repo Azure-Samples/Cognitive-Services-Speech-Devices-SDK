@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-   
 
     <application
         android:allowBackup="true"
@@ -14,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".Conversation"
+            android:label="Conversation"
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -24,14 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".listLanguage"
-            android:label="@string/title_activity_list_language"
+            android:name=".ListLanguage"
+            android:label="ListLanguage"
             android:theme="@style/AppTheme.NoActionBar" />
-		<activity
-            android:name=".conversation"
-            android:label="@string/title_activity_conversation"
-            android:theme="@style/NoActionBar">
-		</activity>
     </application>
 
 </manifest>

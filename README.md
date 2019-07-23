@@ -1,6 +1,6 @@
 # Samples Repository for the Cognitive Services Speech Devices SDK
 
-This project hosts the **samples** for the Cognitive Services Speech Devices SDK.
+This project hosts the **samples** for Cognitive Services Speech Devices SDK. The code here is for reference only. It uses certain libraries which are not hosted here. Please use the quickstart guides mentioned below to learn how to use sample code and download required library files.
 
 ## Features
 
@@ -8,7 +8,7 @@ This repository hosts samples that help you to get started with several features
 
 ## Getting Started
 
-Check out the [sample code walkthrough](https://github.com/Azure-Samples/Cognitive-Services-Speech-Devices-SDK/blob/master/Samples/Android/Speech%20Devices%20SDK%20Starter%20App/Sample_Code_Walkthrough.md) for details on the sample code.
+Check out the [sample code walkthrough](https://github.com/Azure-Samples/Cognitive-Services-Speech-Devices-SDK/blob/master/Samples/Android/Speech%20Devices%20SDK%20Starter%20App/Sample_Code_Walkthrough.md) for details on how to use Azure Speech Services.
 
 Here's how you can [get the Speech Devices SDK](https://aka.ms/sdsdk-get).
 

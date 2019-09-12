@@ -1,3 +1,12 @@
+---
+page_type: sample
+languages:
+products:
+- azure
+description: "This project hosts the samples for Cognitive Services Speech Devices SDK."
+urlFragment: Cognitive-Services-Speech-Devices-SDK
+---
+
 # Samples Repository for the Cognitive Services Speech Devices SDK
 
 This project hosts the **samples** for Cognitive Services Speech Devices SDK. The code here is for reference only. It uses certain libraries which are not hosted here. Please use the quickstart guides mentioned below to learn how to use sample code and download required library files.

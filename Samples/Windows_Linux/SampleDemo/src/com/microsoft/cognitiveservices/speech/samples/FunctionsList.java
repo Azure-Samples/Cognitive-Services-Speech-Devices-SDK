@@ -147,7 +147,7 @@ public class FunctionsList extends JFrame {
 		// runnable Jar file
 		KeywordModel = JarLocation.getAbsolutePath() + File.separator + "kws.table";
 		// log.text file will save in the same path as this application runnable Jar file
-		LogPath = JarLocation.getAbsolutePath() + File.separator + "log.text";
+		LogPath = JarLocation.getAbsolutePath() + File.separator + "log.txt";
 		// Note: point this to a wav file in case you don't want to
 		// use the microphone. It will be used automatically, if
 		// the file exists on disk.

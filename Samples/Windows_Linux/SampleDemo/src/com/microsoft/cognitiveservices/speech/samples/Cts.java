@@ -93,7 +93,7 @@ public class Cts extends JFrame {
 		// Jar file
 		String participantsProp = jarLocation.getAbsolutePath() + File.separator + "participants.properties";
 		// log.text file will save in the same path as this application runnable Jar file
-		String logPath = jarLocation.getAbsolutePath() + File.separator + "log.text";
+		String logPath = jarLocation.getAbsolutePath() + File.separator + "log.txt";
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -378,8 +378,7 @@ public class Cts extends JFrame {
 
 	private void stopClicked() {
 		try {
-			transcriber.stopTranscribingAsync().get();
-			final Future<Void> task = transcriber.endConversationAsync();
+			final Future<Void> task = transcriber.stopTranscribingAsync();
 			setOnTaskCompletedListener(task, result -> {
 				System.out.println("Recognition stopped.");
 				meetingStarted = false;

@@ -283,8 +283,7 @@ public class Conversation extends AppCompatActivity {
     {
         try
         {
-            transcriber.stopTranscribingAsync().get();
-            final Future<Void> task = transcriber.endConversationAsync();
+            final Future<Void> task = transcriber.stopTranscribingAsync();
             setOnTaskCompletedListener(task, result -> {
                 Log.i(logTag, "Recognition stopped.");
                 meetingStarted = false;

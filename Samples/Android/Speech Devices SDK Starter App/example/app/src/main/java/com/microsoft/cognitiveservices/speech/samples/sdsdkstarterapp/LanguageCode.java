@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LanguageCode {
-    private static HashMap<String, String> mapRecolanguageCode = new HashMap<String, String>(){
+    private static HashMap<String, String> mapRecolanguageCode = new HashMap<String, String>() {
         {
             put("English (United States)", "en-US");
             put("German (Germany)", "de-DE");
@@ -17,7 +17,7 @@ public class LanguageCode {
             put("Russian (Russia)", "ru-RU");
         }
     };
-    private static HashMap<String, String> mapTranlanguageCode = new HashMap<String, String>(){
+    private static HashMap<String, String> mapTranlanguageCode = new HashMap<String, String>() {
         {
             put("Afrikaans", "af");
             put("Arabic", "ar");
@@ -84,16 +84,16 @@ public class LanguageCode {
         }
     };
 
-     public static String getCode(int recOrTran, String language){
-            switch (recOrTran){
-                case 0: {
-                    return mapRecolanguageCode.get(language);
-                }
-                case 1:{
-                    return mapTranlanguageCode.get(language);
-                }
+    public static String getCode(int recOrTran, String language) {
+        switch (recOrTran) {
+            case 0: {
+                return mapRecolanguageCode.get(language);
             }
-            return null;
+            case 1: {
+                return mapTranlanguageCode.get(language);
+            }
         }
+        return null;
+    }
 
 }

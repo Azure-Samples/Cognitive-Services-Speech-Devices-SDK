@@ -4,19 +4,16 @@ class SpeakerData {
     private String speaker;
     private int color;
 
-    public SpeakerData(String speaker, int color)
-    {
+    public SpeakerData(String speaker, int color) {
         this.speaker = speaker;
         this.color = color;
     }
 
-    public String getSpeaker()
-    {
+    public String getSpeaker() {
         return speaker;
     }
 
-    public int getColor()
-    {
+    public int getColor() {
         return color;
     }
 }

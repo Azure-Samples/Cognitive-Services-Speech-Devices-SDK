@@ -79,8 +79,9 @@ public class ConversationTranscription extends AppCompatActivity {
                 speechConfig = speechConfig.fromSubscription(CTSKey, CTSRegion);
                 speechConfig.setProperty("DeviceGeometry", "Circular6+1");
                 speechConfig.setProperty("SelectedGeometry", "Raw");
+                speechConfig.setProperty("ConversationTranscriptionInRoomAndOnline", "true");
                 try {
-                    conversation = new Conversation(speechConfig, "MeetingTest");
+                    conversation = Conversation.createConversationAsync(speechConfig, "MeetingTest").get();
                     transcriber = new ConversationTranscriber(AudioConfig.fromDefaultMicrophoneInput());
 
                     transcriber.joinConversationAsync(conversation);
@@ -95,8 +96,6 @@ public class ConversationTranscription extends AppCompatActivity {
                     }
 
                     for (String userId : signatureMap.keySet()) {
-                        User user = User.fromUserId(userId);
-                        conversation.addParticipantAsync(user);
                         Participant participant = Participant.from(userId, "en-US", signatureMap.get(userId));
                         conversation.addParticipantAsync(participant);
                         Log.i(logTag, "add participant: " + userId);

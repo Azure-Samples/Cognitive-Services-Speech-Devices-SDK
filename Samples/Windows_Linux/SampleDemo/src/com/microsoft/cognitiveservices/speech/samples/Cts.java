@@ -201,17 +201,16 @@ public class Cts extends JFrame {
 					speechConfig.setProperty("SelectedGeometry", SelectedGeometry);
 				}
 				speechConfig.setProperty(PropertyId.Speech_LogFilename, logPath);
+				speechConfig.setProperty("ConversationTranscriptionInRoomAndOnline", "true");
 
 				try {
-					conversation = new Conversation(speechConfig, "MeetingTest");
+					conversation = Conversation.createConversationAsync(speechConfig, "MeetingTest").get();
 					transcriber = new ConversationTranscriber(AudioConfig.fromDefaultMicrophoneInput());
 
 					transcriber.joinConversationAsync(conversation);
 					System.out.println("Participants enrollment");
 
 					for (String userId : signatureMap.keySet()) {
-						User user = User.fromUserId(userId);
-						conversation.addParticipantAsync(user);
 						Participant participant = Participant.from(userId, "en-US", signatureMap.get(userId));
 						conversation.addParticipantAsync(participant);
 						System.out.println("add participant: " + userId);

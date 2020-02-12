@@ -13,10 +13,11 @@ import com.microsoft.cognitiveservices.speech.PropertyId;
 import com.microsoft.cognitiveservices.speech.ResultReason;
 import com.microsoft.cognitiveservices.speech.SpeechConfig;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
-import com.microsoft.cognitiveservices.speech.conversation.ConversationTranscriber;
-import com.microsoft.cognitiveservices.speech.conversation.ConversationTranscriptionEventArgs;
-import com.microsoft.cognitiveservices.speech.conversation.Participant;
-import com.microsoft.cognitiveservices.speech.conversation.User;
+import com.microsoft.cognitiveservices.speech.transcription.Conversation;
+import com.microsoft.cognitiveservices.speech.transcription.ConversationTranscriber;
+import com.microsoft.cognitiveservices.speech.transcription.ConversationTranscriptionEventArgs;
+import com.microsoft.cognitiveservices.speech.transcription.Participant;
+import com.microsoft.cognitiveservices.speech.transcription.User;
 
 import java.awt.GridBagLayout;
 import java.awt.SystemColor;
@@ -47,10 +48,11 @@ import java.awt.Font;
 public class Cts extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel contentPane;
 	private JTextArea interResultTextArea;
 	private ConversationTranscriber transcriber = null;
+	private Conversation conversation = null;
 	private boolean meetingStarted = false;
 	private final HashMap<Pair<String, BigInteger>, ConversationTranscriptionEventArgs> transcriptions = new HashMap<>();
 	private JMenuItem startMenuItem, stopMenuItem;
@@ -102,7 +104,6 @@ public class Cts extends JFrame {
 		Font menuFont = fd.getMenuFont();
 		Font textFont = fd.getTextFont();
 		Font boldTextFont = fd.getBoldTextFont();
-		
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -200,18 +201,18 @@ public class Cts extends JFrame {
 					speechConfig.setProperty("SelectedGeometry", SelectedGeometry);
 				}
 				speechConfig.setProperty(PropertyId.Speech_LogFilename, logPath);
+				speechConfig.setProperty("ConversationTranscriptionInRoomAndOnline", "true");
 
 				try {
-					transcriber = new ConversationTranscriber(speechConfig, AudioConfig.fromDefaultMicrophoneInput());
+					conversation = Conversation.createConversationAsync(speechConfig, "MeetingTest").get();
+					transcriber = new ConversationTranscriber(AudioConfig.fromDefaultMicrophoneInput());
 
-					transcriber.setConversationId("MeetingTest");
+					transcriber.joinConversationAsync(conversation);
 					System.out.println("Participants enrollment");
 
 					for (String userId : signatureMap.keySet()) {
-						User user = User.fromUserId(userId);
-						transcriber.addParticipant(user);
 						Participant participant = Participant.from(userId, "en-US", signatureMap.get(userId));
-						transcriber.addParticipant(participant);
+						conversation.addParticipantAsync(participant);
 						System.out.println("add participant: " + userId);
 					}
 					startRecognizeMeeting(transcriber);
@@ -287,9 +288,9 @@ public class Cts extends JFrame {
 		try {
 			t.sessionStarted.addEventListener((o, e) -> System.out.println("Session started event. Start recognition"));
 
-			t.recognizing.addEventListener((o, e) -> recognizingEventHandler(e));
+			t.transcribing.addEventListener((o, e) -> recognizingEventHandler(e));
 
-			t.recognized.addEventListener((o, e) -> {
+			t.transcribed.addEventListener((o, e) -> {
 				final String text = e.getResult().getText();
 				final String speakerId = e.getResult().getUserId().equals("Unidentified") ? "Guest"
 						: e.getResult().getUserId();
@@ -347,7 +348,8 @@ public class Cts extends JFrame {
 		} else {
 			if (transcriptions.containsKey(key)) {
 				if (transcriptions.get(key).getResult().getReason() == ResultReason.RecognizingSpeech) {
-					System.out.println("Two utterances occurred at the same time. Offset: " + offset + "; text: " + text);
+					System.out
+							.println("Two utterances occurred at the same time. Offset: " + offset + "; text: " + text);
 				}
 			}
 			transcriptions.put(key, e);

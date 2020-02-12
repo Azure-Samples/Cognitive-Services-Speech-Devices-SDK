@@ -3,10 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     sourceSets {
+        main {
+            jniLibs.srcDirs 'src/main/jniLibs/'
+        }
         test {
             resources.srcDirs += ['src/test/resources']
         }
-
     }
     defaultConfig {
         applicationId "com.microsoft.cognitiveservices.speech.samples.sdsdkstarterapp"
@@ -39,5 +41,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.jar')
 }

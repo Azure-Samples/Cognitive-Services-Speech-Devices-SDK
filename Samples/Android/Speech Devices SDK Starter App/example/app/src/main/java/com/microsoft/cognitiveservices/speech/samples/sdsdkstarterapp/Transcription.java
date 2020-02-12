@@ -13,18 +13,15 @@ public class Transcription {
         this.offset = offset;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return text;
     }
 
-    public SpeakerData getMemberData()
-    {
+    public SpeakerData getMemberData() {
         return speakerData;
     }
 
-    public BigInteger getOffset()
-    {
+    public BigInteger getOffset() {
         return offset;
     }
 }

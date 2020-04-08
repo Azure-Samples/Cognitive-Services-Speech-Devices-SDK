@@ -1,0 +1,27 @@
+{
+  "YourSubscriptionKey": "",
+  "YourServiceRegion": "",
+  "YourLanguageUnderstandingSubscriptionKey": "",
+  "YourLanguageUnderstandingServiceRegion": "",
+  "YourLanguageUnderstandingAppId": "",
+  "YourCTSSubscriptionKey": "",
+  "YourCTSServiceRegion": "",
+  "YourSpeechCustomCommandsAppId": "",
+  "YourSpeechDialogSubscriptionKey": "",
+  "YourSpeechDialogRegion": "",
+  "DeviceGeometry": "",
+  "_DeviceGeometrySample": "use Circular6+1 or Linear4 in DeviceGeometry",
+  "SelectedGeometry": "",
+  "_SelectedGeometrySample": "use Circular6+1 or Linear4 in SelectedGeometry",
+  "Keyword": "",
+  "_Keyword": "use computer/machine/assistant in Keyword",
+  "PARTICIPANTSLIST": [
+    {
+      "Name": "Tester",
+      "Language": "en-us",
+      "Version": "0",
+      "Tag": "following https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-use-conversation-transcription#create-voice-signatures",
+      "Data": "following https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-use-conversation-transcription#create-voice-signatures"
+    }
+  ]
+}

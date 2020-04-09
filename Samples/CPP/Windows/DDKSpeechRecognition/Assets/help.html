@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1 style="text-align: center">DDK Speech Recognition App</h1>
+</head>
+<body>
+    <h2>Introduction</h2>
+    <pre>&Tab;This app provides a shortcut to let customers experience Speech DDK devices quickly. </pre>
+    <pre>&Tab;There are two parts of this app, one is the C++ engine, which was compiled with cross-platform compilers for each DDK device; another is the WinForms UI, which provides device selection, device setup and speech recognition scenario functions.</pre>
+    <h2>Pre-request</h2>
+    <b>1.	Install ADB (Android Debug Bridge) tool</b>
+    <br>
+
+<pre>&Tab;• Download from <a href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip">https://dl.google.com/android/repository/platform-tools-latest-windows.zip</a></pre>
+<pre>&Tab;• Unzip it to any folder</pre>
+<pre>&Tab;• Add the folder path to System Environment variable 'Path'</pre>
+    <b>2.	Firewall allow access</b>
+    <pre>&Tab;For the first time to click any recognition button, you may see the following firewall settings window, please check all checkboxes and click 'allow access' button</pre>
+    <pre>&Tab;<image src="FirewallAllowAccess.png" alt="firewall allow access image"></image></pre><br>
+
+    <b>3.	Connect device to WiFi</b><br>
+
+<pre>&Tab;• <b>DDK2</b></pre>
+<pre>&Tab;&Tab;1) Run 'adb shell test_cmd_wifi -s [wifi_name] -p [wifi_password]'</pre>
+<pre>&Tab;• <b>DDK1</b></pre>
+<pre>&Tab;&Tab;1) Install Vysor and connect WiFi through Vysor emulator UI</pre>
+<pre>&Tab;• <b>URbetter</b></pre>
+<pre>&Tab;&Tab;1) Launch app, click the 'Connect to WiFi' button</pre>
+<pre>&Tab;&Tab;2) Edit the pop up 'wpa_supplicant.conf' file</pre>
+<pre>&Tab;&Tab;&Tab;• Fill WiFi SSID and password</pre>
+<pre>&Tab;&Tab;&Tab;network={</pre>
+<pre>&Tab;&Tab;&Tab;&Tab;ssid=""</pre>
+<pre>&Tab;&Tab;&Tab;&Tab;psk=""</pre>
+<pre>&Tab;&Tab;&Tab;&Tab;key_mgmt=WPA-PSK</pre>
+<pre>&Tab;&Tab;&Tab;}</pre>
+<pre>&Tab;&Tab;3) Close the 'wpa_supplicant.conf' file and messagebox</pre>
+<pre>&Tab;&Tab;4) Click the 'Connect to WiFi' button again to connect to WiFi</pre>
+<pre>&Tab;• <b>Eden or other devices only with microphone array</b></pre>
+<pre>&Tab;&Tab;Just make sure the host PC connects to internet.</pre>
+    <h2>User interface</h2>
+    <image src="UserInterface.png" alt="user interface image"></image>
+<pre>&Tab;• <b>Title:</b> use a number to indicate which Speech SDK version is using, like 1.9</pre>
+<pre>&Tab;• <b>Select Device:</b> select the DDK device connects to Host PC</pre>
+<pre>&Tab;• <b>Setup Device:</b> </pre>
+<pre>&Tab;&Tab;1) Click 'Connect to WiFi' button to make sure device is connected to WiFi</pre>
+<pre>&Tab;&Tab;2) Click 'Setup' button to push the C++ engine and Speech SDK libs to device</pre>
+<pre>&Tab;&Tab;Then you can click any Speech Recognition button to experience the functions.</pre>
+<pre>&Tab;• <b>Recognition buttons:</b> Various Speech recognition scenarios</pre>
+<pre>&Tab;• <b>Output pane:</b> Show recognition result</pre>
+    <h2>Get DDK devices</h2>
+    <pre>&Tab;DDK devices : <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/get-speech-devices-sdk">https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/get-speech-devices-sdk</a></pre>
+    <h2>Limitation</h2>
+    <pre>&Tab;Host pc and device need connect to the same WiFi network.</pre>
+    <h2>Advance user</h2>
+    <pre>&Tab;<b>• Voice Signature</b></pre>
+<pre>&Tab;&Tab; Create your own voice signature : <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-use-conversation-transcription#create-voice-signatures">https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-use-conversation-transcription#create-voice-signatures</a></pre>
+    <pre>&Tab;<b>• Config device</b></pre>
+<pre>&Tab;&Tab;1) Click the 'Edit Config' button to change the subscription key, Geometry settings, keyword settings or add your own voice signature (need also update CTS key and region, from where you generate the voice signature)</pre>
+<pre>&Tab;&Tab;2) Click the 'Apply Config' button to apply the config changes to device, then click any recognition button to experience functions</pre>
+<pre>&Tab;&Tab;3) IP address textbox shows host PC IPV4 address. Device will send recognition result to this IP address. Make sure host PC and device connect to the same WiFi network.</pre>
+<pre>&Tab;<b>• Build the C++ sample code</b></pre>
+<pre>&Tab;&Tab;• <b>On Windows:</b> Just build the ConsoleSampleCode project, which could be used for a 6+1 microphone array connects to Windows.</pre>
+<pre>&Tab;&Tab;• <b>Build for Embedded Linux on DDK device (in future):</b> Provide a sample build batch file (for DDK2) under docker folder in source code. Install Docker, run the build.bat file from source code docker folder, the compiled file will be generated under out folder. </pre>
+<pre>&Tab;&Tab;&Tab; Copy the new complied file to the out folder with related Device name. Launch app, click 'Setup' button to apply the changes. </pre>
+<pre>&Tab;&Tab;&Tab; (please add the include header files like the following picture, Linux C++ header files could get from https://aka.ms/csspeech/linuxbinary) </pre>
+    <pre>&Tab;&Tab;&Tab;<image src="SpeechSDKInclude.PNG" alt="Speech SDK include headers"></image></pre>
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+**/.vs
+/x64/
+/Setup/
+/packages/
+/Debug/
+/Release/
+/ConsoleSampleCode/Debug/
+/ConsoleSampleCode/x64/
+/ConsoleSampleCode/Release/
+/DDKSpeechRecognition/bin/
+/DDKSpeechRecognition/obj/
+**.csproj.user
+**.vcxproj.filters
+**.vcxproj.user
+**.vdproj

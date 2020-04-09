@@ -1,14 +1,14 @@
 ---
 page_type: sample
 languages:
-- java
+- java, c++
 products:
 - azure
 description: "This project hosts the samples for Cognitive Services Speech Devices SDK."
 urlFragment: sample-speech-devices-sdk-java
 ---
 
-# Samples Repository for the Cognitive Services Speech Devices Java SDK
+# Samples Repository for the Cognitive Services Speech Devices SDK
 
 This project hosts the **samples** for Cognitive Services Speech Devices SDK. The code here is for reference only. It uses certain libraries which are not hosted here. Please use the quickstart guides mentioned below to learn how to use sample code and download required library files.
 

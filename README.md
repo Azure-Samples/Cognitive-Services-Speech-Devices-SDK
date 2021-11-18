@@ -8,9 +8,12 @@ description: "This project hosts the samples for Cognitive Services Speech Devic
 urlFragment: sample-speech-devices-sdk-java
 ---
 
-# Samples Repository for the Cognitive Services Speech Devices SDK
+# Samples Repository for the Cognitive Services Speech Devices SDK (deprecated)
 
 This project hosts the **samples** for Cognitive Services Speech Devices SDK. The code here is for reference only. It uses certain libraries which are not hosted here. Please use the quickstart guides mentioned below to learn how to use sample code and download required library files.
+
+## Speech Devices SDK deprecated
+The Speech Devices SDK is deprecated. All users of the Speech Devices SDK are advised to migrate to using [Speech SDK](https://docs.microsoft.com/azure/cognitive-services/speech-service/speech-sdk) version 1.19.0 or later.
 
 ## Features
 
